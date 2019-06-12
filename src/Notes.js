@@ -4,8 +4,10 @@ export default class Notes extends Component {
 
   render() {
     return (
-      <div>
-        <h1>Hi Notes!</h1>
+      <div className="note">
+        <div>
+          <li>{this.props.note}</li>
+        </div>
       </div>
     )
   }

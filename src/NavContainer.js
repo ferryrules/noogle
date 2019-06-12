@@ -6,8 +6,9 @@ export default class NavContainer extends Component {
 
   render() {
     return (
-      <div>
-        <h1>Hi NavContainer!</h1>
+      <div className="nav_container">
+        <Users />
+        <Folders folders={this.props.folders}/>
       </div>
     )
   }

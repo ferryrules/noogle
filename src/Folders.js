@@ -2,16 +2,17 @@ import React, { Component } from 'react';
 
 export default class Folders extends Component {
 
-  eachFolder = () => {
-    return this.props.folders.map(f=>f.name)
-  }
-
   render() {
+    const eachFolder = this.props.folders.map(f => {
+      return <li key={f.id}><button id={f.id}>{f.name}</button></li>
+    })
     return (
-      <div>
-        <h1>Hi Folders!</h1>
+      <div className="nav_folders_list">
+        <h2>Folders</h2>
+        <input type="text" placeholder="New folder name" />
+        <button>+</button>
         <ul>
-          <li>{this.eachFolder()}</li>
+          {eachFolder}
         </ul>
       </div>
     )
