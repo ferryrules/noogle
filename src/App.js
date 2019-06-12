@@ -1,28 +1,42 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
 import Folders from './Folders.js'
+import Users from './Users.js'
+import Notes from './Notes.js'
+import NotesContainer from './NotesContainer.js'
+import NavContainer from './NavContainer.js'
+const FOLDER_API = "http://localhost:3000/folders"
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-      <Folders />
-    </div>
-  );
+class App extends React.Component {
+  state = {
+    user: [],
+    folders: [],
+    notes: []
+  }
+
+  componentDidMount() {
+    fetch(FOLDER_API)
+    .then(r => r.json())
+    .then(folders => {
+      this.setState({
+        folders
+      })
+    })
+  }
+
+  render() {
+    const { folders } = this.state
+    console.log(this.state.folders);
+    return (
+      <div className="App">
+        <NavContainer />
+        <Folders folders={folders}/>
+        <Users />
+        <NotesContainer />
+        <Notes />
+      </div>
+    );
+  }
 }
 
 export default App;
