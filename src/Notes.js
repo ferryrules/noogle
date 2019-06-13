@@ -6,7 +6,7 @@ export default class Notes extends Component {
     return (
       <div className="note">
         <div>
-          <li>{this.props.note}</li>
+          <li>{this.props.note}<button id={this.props.id} onClick={this.props.deleteMe}>x</button></li>
         </div>
       </div>
     )

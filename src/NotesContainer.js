@@ -44,9 +44,23 @@ export default class NotesContainer extends Component {
     })
   }
 
+
+
+  deleteMe = (e) => {
+    console.log(e.target.id);
+    let findNote = this.state.notes.filter(n=>{
+      return n.id !== parseInt(e.target.id)
+    })
+    console.log(findNote);
+    fetch(`http://localhost:3000/notes/${e.target.id}`, {method: "DELETE"})
+    this.setState({
+      notes: findNote
+    })
+  }
+
   render() {
     const eachNote = this.state.notes.map(n=>{
-      return <Notes note={n.note} key={n.id} />
+      return <Notes note={n.note} id={n.id} key={n.id} deleteMe={this.deleteMe} />
     })
 
     return (
