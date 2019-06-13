@@ -65,6 +65,10 @@ export default class NotesContainer extends Component {
         return <Notes note={n.note} id={n.id} key={n.id} deleteMe={this.deleteMe} />
       }
     })
+    const folderName = this.props.folders.find(f=>{
+      return f.id === this.state.folder
+    })
+    console.log(folderName);
 
     return (
       <div className="notes_container">
