@@ -5,6 +5,7 @@ const NOTE_API = "http://localhost:3000/notes"
 export default class NotesContainer extends Component {
 
   state = {
+    folder: 1 || this.props.folder,
     notes: [],
     newNote: ""
   }
@@ -31,7 +32,7 @@ export default class NotesContainer extends Component {
       },
       body: JSON.stringify({
         note: this.state.newNote,
-        folder_id: 1,
+        folder_id: this.state.folder,
         key: this.state.newNote
       })
     })
@@ -60,7 +61,9 @@ export default class NotesContainer extends Component {
 
   render() {
     const eachNote = this.state.notes.map(n=>{
-      return <Notes note={n.note} id={n.id} key={n.id} deleteMe={this.deleteMe} />
+      if (n.folder_id === this.state.folder) {
+        return <Notes note={n.note} id={n.id} key={n.id} deleteMe={this.deleteMe} />
+      }
     })
 
     return (

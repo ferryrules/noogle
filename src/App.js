@@ -6,6 +6,7 @@ const FOLDER_API = "http://localhost:3000/folders"
 
 class App extends React.Component {
   state = {
+    thisFolder: 1,
     folders: []
   }
 
@@ -15,12 +16,16 @@ class App extends React.Component {
     .then(folders => this.setState({ folders }))
   }
 
+  changeFolder = (e) => {
+    console.log(e.target.id);
+  }
+
   render() {
-    const { folders } = this.state
+    const { folders, thisFolder } = this.state
     return (
       <div className="grid-container">
-        <NavContainer folders={folders}/>
-        <NotesContainer folder={folders}/>
+        <NavContainer changeFolder={this.changeFolder} folders={folders}/>
+        <NotesContainer folder={thisFolder}/>
       </div>
     );
   }

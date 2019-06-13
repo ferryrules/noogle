@@ -4,7 +4,7 @@ export default class Folders extends Component {
 
   render() {
     const eachFolder = this.props.folders.map(f => {
-      return <li key={f.id}><button id={f.id}>{f.name}</button></li>
+      return <li key={f.id}><button onClick={this.props.changeFolder} id={f.id}>{f.name}</button></li>
     })
     return (
       <div className="nav_folders_list">

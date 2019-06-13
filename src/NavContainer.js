@@ -8,7 +8,7 @@ export default class NavContainer extends Component {
     return (
       <div className="nav_container">
         <Users />
-        <Folders folders={this.props.folders}/>
+        <Folders changeFolder={this.props.changeFolder} folders={this.props.folders}/>
       </div>
     )
   }
