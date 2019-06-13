@@ -3,7 +3,7 @@ import './App.css';
 import NotesContainer from './NotesContainer.js'
 import NavContainer from './NavContainer.js'
 import { Switch, Route } from 'react-router-dom'
-const FOLDER_API = "http://localhost:3000/folders"
+const API = "http://localhost:3000/users"
 
 class App extends React.Component {
   state = {
@@ -12,9 +12,11 @@ class App extends React.Component {
   }
 
   componentDidMount() {
-    fetch(FOLDER_API)
+    fetch(API)
     .then(r => r.json())
-    .then(folders => this.setState({ folders }))
+    .then(users => {
+      console.log(users);
+    })
   }
 
   changeFolder = (e) => {
