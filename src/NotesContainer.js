@@ -5,7 +5,8 @@ const NOTE_API = "http://localhost:3000/notes"
 export default class NotesContainer extends Component {
 
   state = {
-    notes: []
+    notes: [],
+    newNote: ""
   }
 
   componentDidMount() {
@@ -14,11 +15,40 @@ export default class NotesContainer extends Component {
     .then(notes => this.setState({ notes }))
   }
 
+  newNote = (e) => {
+    this.setState({
+      newNote: e.target.value
+    })
+  }
+
+  saveNewNote = (e) => {
+    e.preventDefault()
+    fetch(NOTE_API, {
+      method: "POST",
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+      },
+      body: JSON.stringify({
+        note: this.state.newNote,
+        folder_id: 1,
+        key: this.state.newNote
+      })
+    })
+    .then(r=>r.json())
+    .then(note=>{
+      this.setState({
+        notes: [...this.state.notes, note],
+        newNote: ""
+      })
+    })
+  }
+
   render() {
     const eachNote = this.state.notes.map(n=>{
       return <Notes note={n.note} key={n.id} />
     })
-    
+
     return (
       <div className="notes_container">
         <h2 className="notes_container_header">Sup Bro</h2>
@@ -26,8 +56,8 @@ export default class NotesContainer extends Component {
           {eachNote}
         </ul>
         <form className="notes_container_compose">
-          <input type="text" name="new_note_text" placeholder={`Note`} />
-          <input type="submit" />
+          <input type="text" name="new_note_text" placeholder={`Note`} value={this.state.newNote} onChange={this.newNote}/>
+          <input type="submit" onClick={this.saveNewNote}/>
         </form>
       </div>
     )
