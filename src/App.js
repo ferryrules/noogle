@@ -3,17 +3,27 @@ import './App.css';
 import NotesContainer from './NotesContainer.js'
 import NavContainer from './NavContainer.js'
 import { Switch, Route } from 'react-router-dom'
+import SignupPage from './SignupPage'
+import LoginPage from './LoginPage'
 const USER_API = "http://localhost:3000/users"
 const FOLDER_API = "http://localhost:3000/folders"
 
 class App extends React.Component {
+
   state = {
+    page: "login",
     users: [],
     folders: [],
     thisFolder: [],
     currentUser: 2,
     newFolder: "",
     addUserInput: ""
+  }
+
+  redirect = (page) => {
+    this.setState({
+      page: page
+    })
   }
 
   componentDidMount() {
@@ -115,9 +125,21 @@ class App extends React.Component {
     })
   }
 
+  logout = (e) => {
+    localStorage.clear()
+    this.setState({
+      page: "login"
+    })
+  }
+
   render() {
     const { folders, thisFolder, newFolderName, currentUser } = this.state
     console.log("app", this.state.users);
+    if (this.state.page === "signup") {
+      return <SignupPage redirect={this.redirect} />
+    } else if (this.state.page === "login") {
+      return <LoginPage redirect={this.redirect} />
+    }
 
     return (
       // <Switch>
@@ -130,6 +152,7 @@ class App extends React.Component {
       // <Link to='/{route}'>
       // </Switch>
       <div className="grid-container">
+        <button onClick={this.logout}>Sign Out</button>
         <NavContainer
           newFolderName={this.newFolderName}
           addFolder={this.addFolder}
