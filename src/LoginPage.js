@@ -20,18 +20,7 @@ class LoginPage extends React.Component {
 
   handleLogin = (event) => {
     event.preventDefault();
-
-    fetch("http://localhost:3000/login", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify(this.state)
-    }).then(resp => resp.json())
-      .then(data => {
-        localStorage.setItem('token', data.token)
-        this.props.redirect("index")
-      })
+    this.props.okToFetch(this.state.username)
   }
 
   render() {

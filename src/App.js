@@ -3,7 +3,6 @@ import './App.css';
 import NotesContainer from './NotesContainer.js'
 import NavContainer from './NavContainer.js'
 import { Switch, Route } from 'react-router-dom'
-import SignupPage from './SignupPage'
 import LoginPage from './LoginPage'
 const USER_API = "http://localhost:3000/users"
 const FOLDER_API = "http://localhost:3000/folders"
@@ -15,9 +14,10 @@ class App extends React.Component {
     users: [],
     folders: [],
     thisFolder: [],
-    currentUser: 2,
+    currentUser: 1,
+    currentSession: true,
     newFolder: "",
-    addUserInput: ""
+    shareFolderWithUser: ""
   }
 
   redirect = (page) => {
@@ -26,22 +26,25 @@ class App extends React.Component {
     })
   }
 
-  componentDidMount() {
+  stopFuckingFetching = (username) => {
     fetch(USER_API)
     .then(r => r.json())
     .then(users => {
       console.log("fetch", users);
-      let user = users.find(u=>u.id===this.state.currentUser)
+      let user = users.find(u=>u.username===username)
       this.setState({
+        page: "",
         users,
         folders: user.folders,
-        thisFolder: user.folders[0]
+        thisFolder: user.folders[0],
+        currentUser: user.id,
+        currentSession: true
       })
     })
   }
 
   newFolderName = (e) => {
-    console.log(e.target.value);
+    // console.log(e.target.value);
     this.setState({
       newFolder: e.target.value
     })
@@ -49,6 +52,7 @@ class App extends React.Component {
 
   addFolder = (e) => {
     e.preventDefault()
+    console.log(this.state.newFolderName);
     fetch(FOLDER_API,{
       method: "POST",
       headers: {
@@ -96,61 +100,54 @@ class App extends React.Component {
     })
   }
 
-  addUserInput = (e) => {
-    // console.log(e.target.value);
-    this.setState({
-      addUserInput: e.target.value
+  shareFolder = (e) => {
+    e.preventDefault()
+    console.log(e.target.id);
+    let grabUser = this.state.users.find(u=>{
+      return u.username === this.state.shareFolderWithUser
     })
+    console.log("grabUser", grabUser);
+    if (grabUser) {
+      fetch(FOLDER_API+`/${this.state.thisFolder.id}`, {
+        method: "POST",
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+        body: JSON.stringify({
+          folder_id: this.state.thisFolder.id,
+          user_id: grabUser.id
+        })
+      })
+      this.setState({
+        addUserInput: ""
+      })
+    }
   }
 
-  addUser = (e) => {
-    e.preventDefault()
-    console.log(this.state.users);
-    console.log(e.target.id);
-    console.log(this.state.addUserInput);
-    let grabUser = this.state.users.find(u=>{
-      return u.username === this.state.addUserInput
-    })
-    console.log(grabUser);
-    fetch(FOLDER_API+`/${parseInt(e.target.id)}`, {
-      method: "POST",
-      headers: {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json'
-      },
-      body: JSON.stringify({
-        folder_id: parseInt(e.target.id),
-        user_id: grabUser.id
-      })
+  addNewUser = (e) => {
+    console.log(e.target.value);
+    this.setState({
+      shareFolderWithUser: e.target.value
     })
   }
 
   logout = (e) => {
-    localStorage.clear()
+    // localStorage.clear()
     this.setState({
-      page: "login"
+      page: "login",
+      currentSession: false
     })
   }
 
   render() {
     const { folders, thisFolder, newFolderName, currentUser } = this.state
     console.log("app", this.state.users);
-    if (this.state.page === "signup") {
-      return <SignupPage redirect={this.redirect} />
-    } else if (this.state.page === "login") {
-      return <LoginPage redirect={this.redirect} />
+    if (this.state.page === "login" && this.state.currentSession === false) {
+      return <LoginPage okToFetch={this.stopFuckingFetching} redirect={this.redirect} />
     }
 
     return (
-      // <Switch>
-        // <Route
-        //   path='/notes'
-        //   component={null /*some page*/}
-        //   render={routerProps => <NotesContainer routerProps={routerProps} /> } />
-      //   <Route path='/' component={null /*some page*/} render={() => {}}/> EMPTY ONE AT THE BOTTOM!
-      // in different shit this.props.history.push('/{someroute}')
-      // <Link to='/{route}'>
-      // </Switch>
       <div className="grid-container">
         <button onClick={this.logout}>Sign Out</button>
         <NavContainer
@@ -164,8 +161,8 @@ class App extends React.Component {
           folder={thisFolder}
           folders={folders}
           user={currentUser}
-          addUser={this.addUser}
-          addUserInput={this.addUserInput}/>
+          addNewUser={this.addNewUser}
+          shareFolder={this.shareFolder}/>
       </div>
     );
   }

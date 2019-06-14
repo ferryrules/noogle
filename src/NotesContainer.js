@@ -69,15 +69,13 @@ export default class NotesContainer extends Component {
     const eachNote = folderNotes.map(n=>{
       return <Notes note={n.note} id={n.id} key={n.id} deleteMe={this.deleteMe} />
     })
-    // console.log(folderNotes);
-    // console.log("notes state", this.state.notes);
 
     return (
       <div className="notes_container">
         <h2
           className="notes_container_header">{this.props.folder.name}
-          <input onChange={this.props.addUserInput} placeholder="Enter username" />
-          <button id={this.props.folder.id} onClick={this.props.addUser}>Share</button>
+          <input onChange={this.props.addNewUser} placeholder="Enter username" />
+          <button onClick={this.props.shareFolder}>Share</button>
         </h2>
         <ul className="notes_container_list">
           {eachNote}
