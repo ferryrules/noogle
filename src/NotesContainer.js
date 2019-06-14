@@ -76,7 +76,8 @@ export default class NotesContainer extends Component {
       <div className="notes_container">
         <h2
           className="notes_container_header">{this.props.folder.name}
-          <button onClick={this.props.addUser}>Share</button>
+          <input onChange={this.props.addUserInput} placeholder="Enter username" />
+          <button id={this.props.folder.id} onClick={this.props.addUser}>Share</button>
         </h2>
         <ul className="notes_container_list">
           {eachNote}

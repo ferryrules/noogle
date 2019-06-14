@@ -8,12 +8,12 @@ const FOLDER_API = "http://localhost:3000/folders"
 
 class App extends React.Component {
   state = {
-    users: {},
+    users: [],
     folders: [],
     thisFolder: [],
     currentUser: 2,
     newFolder: "",
-    addUser: ""
+    addUserInput: ""
   }
 
   componentDidMount() {
@@ -21,11 +21,10 @@ class App extends React.Component {
     .then(r => r.json())
     .then(users => {
       // console.log(users);
-      let currentUsers = users.map(u=>u.username)
       let user = users.find(u=>u.id===this.state.currentUser)
       console.log(user);
       this.setState({
-        users: currentUsers,
+        users,
         folders: user.folders,
         thisFolder: user.folders[0]
       })
@@ -88,8 +87,19 @@ class App extends React.Component {
     })
   }
 
+  addUserInput = (e) => {
+    // console.log(e.target.value);
+    this.setState({
+      addUserInput: e.target.value
+    })
+  }
+
   addUser = (e) => {
-    prompt("Enter user name")
+    e.preventDefault()
+    let user = this.state.users.find(u=>u === this.state.addUserInput)
+    console.log(e.target.id);
+    console.log(user);
+
   }
 
   render() {
@@ -118,7 +128,8 @@ class App extends React.Component {
           folder={thisFolder}
           folders={folders}
           user={currentUser}
-          addUser={this.addUser}/>
+          addUser={this.addUser}
+          addUserInput={this.addUserInput}/>
       </div>
     );
   }
