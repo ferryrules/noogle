@@ -20,9 +20,8 @@ class App extends React.Component {
     fetch(USER_API)
     .then(r => r.json())
     .then(users => {
-      // console.log(users);
+      console.log("fetch", users);
       let user = users.find(u=>u.id===this.state.currentUser)
-      console.log(user);
       this.setState({
         users,
         folders: user.folders,
@@ -96,10 +95,24 @@ class App extends React.Component {
 
   addUser = (e) => {
     e.preventDefault()
-    let user = this.state.users.find(u=>u === this.state.addUserInput)
+    console.log(this.state.users);
     console.log(e.target.id);
-    console.log(user);
-
+    console.log(this.state.addUserInput);
+    let grabUser = this.state.users.find(u=>{
+      return u.username === this.state.addUserInput
+    })
+    console.log(grabUser);
+    fetch(FOLDER_API+`/${parseInt(e.target.id)}`, {
+      method: "POST",
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+      },
+      body: JSON.stringify({
+        folder_id: parseInt(e.target.id),
+        user_id: grabUser.id
+      })
+    })
   }
 
   render() {
