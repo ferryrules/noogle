@@ -5,7 +5,6 @@ const NOTE_API = "http://localhost:3000/notes"
 export default class NotesContainer extends Component {
 
   state = {
-    folder: 1 || this.props.folder,
     notes: [],
     newNote: ""
   }
@@ -13,10 +12,16 @@ export default class NotesContainer extends Component {
   componentDidMount() {
     fetch(NOTE_API)
     .then(r => r.json())
-    .then(notes => this.setState({ notes }))
+    .then(notes => {
+      // console.log("notes", notes)
+      this.setState({
+        notes
+      })
+    })
   }
 
   newNote = (e) => {
+    // console.log(e.target.value);
     this.setState({
       newNote: e.target.value
     })
@@ -32,12 +37,14 @@ export default class NotesContainer extends Component {
       },
       body: JSON.stringify({
         note: this.state.newNote,
-        folder_id: this.state.folder,
+        folder_id: this.props.folder.id,
+        user_id: this.props.user,
         key: this.state.newNote
       })
     })
     .then(r=>r.json())
     .then(note=>{
+      console.log("new note", note);
       this.setState({
         notes: [...this.state.notes, note],
         newNote: ""
@@ -45,14 +52,10 @@ export default class NotesContainer extends Component {
     })
   }
 
-
-
   deleteMe = (e) => {
-    console.log(e.target.id);
     let findNote = this.state.notes.filter(n=>{
       return n.id !== parseInt(e.target.id)
     })
-    console.log(findNote);
     fetch(`http://localhost:3000/notes/${e.target.id}`, {method: "DELETE"})
     this.setState({
       notes: findNote
@@ -60,19 +63,21 @@ export default class NotesContainer extends Component {
   }
 
   render() {
-    const eachNote = this.state.notes.map(n=>{
-      if (n.folder_id === this.state.folder) {
-        return <Notes note={n.note} id={n.id} key={n.id} deleteMe={this.deleteMe} />
-      }
+    const folderNotes = this.state.notes.filter(n=>{
+      return n.folder_id === this.props.folder.id
     })
-    const folderName = this.props.folders.find(f=>{
-      return f.id === this.state.folder
+    const eachNote = folderNotes.map(n=>{
+      return <Notes note={n.note} id={n.id} key={n.id} deleteMe={this.deleteMe} />
     })
-    console.log(folderName);
+    // console.log(folderNotes);
+    // console.log("notes state", this.state.notes);
 
     return (
       <div className="notes_container">
-        <h2 className="notes_container_header">Sup Bro</h2>
+        <h2
+          className="notes_container_header">{this.props.folder.name}
+          <button onClick={this.props.addUser}>Share</button>
+        </h2>
         <ul className="notes_container_list">
           {eachNote}
         </ul>

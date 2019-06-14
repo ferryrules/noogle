@@ -3,29 +3,99 @@ import './App.css';
 import NotesContainer from './NotesContainer.js'
 import NavContainer from './NavContainer.js'
 import { Switch, Route } from 'react-router-dom'
-const API = "http://localhost:3000/users"
+const USER_API = "http://localhost:3000/users"
+const FOLDER_API = "http://localhost:3000/folders"
 
 class App extends React.Component {
   state = {
-    thisFolder: 1,
-    folders: []
+    users: {},
+    folders: [],
+    thisFolder: [],
+    currentUser: 2,
+    newFolder: "",
+    addUser: ""
   }
 
   componentDidMount() {
-    fetch(API)
+    fetch(USER_API)
     .then(r => r.json())
     .then(users => {
-      console.log(users);
+      // console.log(users);
+      let currentUsers = users.map(u=>u.username)
+      let user = users.find(u=>u.id===this.state.currentUser)
+      console.log(user);
+      this.setState({
+        users: currentUsers,
+        folders: user.folders,
+        thisFolder: user.folders[0]
+      })
     })
   }
 
-  changeFolder = (e) => {
+  newFolderName = (e) => {
+    console.log(e.target.value);
+    this.setState({
+      newFolder: e.target.value
+    })
+  }
+
+  addFolder = (e) => {
+    e.preventDefault()
+    fetch(FOLDER_API,{
+      method: "POST",
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+      },
+      body: JSON.stringify({
+        name: this.state.newFolder,
+        user_id: this.state.currentUser
+      })
+    })
+    .then(r=>r.json())
+    .then(myFolder=>{
+      console.log(myFolder);
+      let folder = {
+        name: myFolder.name,
+        id: myFolder.id,
+        notes: []
+      }
+      // debugger
+      this.setState({
+        folders: [...this.state.folders, folder],
+        newFolderName: ""
+      })
+    })
+  }
+
+  changeFolder = (folderName) => {
+    let selectedFolder = this.state.folders.find(f=>{
+      return f.name === folderName
+    })
+    this.setState({
+      thisFolder: selectedFolder
+    })
+  }
+
+  deleteFolder = (e) => {
     console.log(e.target.id);
+    let findFolder = this.state.folders.filter(f=>{
+      return f.id !== parseInt(e.target.id)
+    })
+    fetch(FOLDER_API+`/${e.target.id}`, {method: "DELETE"})
+    this.setState({
+      folders: findFolder
+    })
+  }
+
+  addUser = (e) => {
+    prompt("Enter user name")
   }
 
   render() {
-    const { folders, thisFolder } = this.state
-    console.log(this.state);
+    const { folders, thisFolder, newFolderName, currentUser } = this.state
+    console.log("app", this.state.users);
+
     return (
       // <Switch>
         // <Route
@@ -37,8 +107,18 @@ class App extends React.Component {
       // <Link to='/{route}'>
       // </Switch>
       <div className="grid-container">
-        <NavContainer changeFolder={this.changeFolder} folders={folders}/>
-        <NotesContainer folder={thisFolder} folders={folders} />
+        <NavContainer
+          newFolderName={this.newFolderName}
+          addFolder={this.addFolder}
+          changeFolder={this.changeFolder}
+          deleteFolder={this.deleteFolder}
+          folders={folders}
+          user={currentUser}/>
+        <NotesContainer
+          folder={thisFolder}
+          folders={folders}
+          user={currentUser}
+          addUser={this.addUser}/>
       </div>
     );
   }
