@@ -90,15 +90,21 @@ export default class NotesContainer extends Component {
 
     return (
       <div className="notes_container">
-        <h2
-          className="notes_container_header">{folder.name}
+        <h2 className="notes_container_header">
+          <span className="headerName">
+            {folder.name}
+          </span>
 
-          { !!folder ? <input
-            onChange={this.shareWithUser}
-            placeholder="Enter username"
-            value={this.state.shareWithUser} /> : null }
-          { !!folder ? <button onClick={this.shareFolder}>Share</button>  : null }
-
+          { !!folder 
+            ? (<span className="addCollaboratorContainer">
+                <input
+                  onChange={this.shareWithUser}
+                  placeholder="Enter username"
+                  value={this.state.shareWithUser} />) 
+            : null }
+          { !!folder 
+            ? <button onClick={this.shareFolder}>Share</button>  
+            : null }
         </h2>
 
         <ul className="notes_container_list">

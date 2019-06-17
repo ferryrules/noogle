@@ -1,4 +1,5 @@
 import React from 'react';
+import { Button, Form } from 'semantic-ui-react'
 const USER_API = "http://localhost:3000/users"
 
 export default class LoginPage extends React.Component {
@@ -42,14 +43,21 @@ export default class LoginPage extends React.Component {
 
   render() {
     return (
-      <form onSubmit={this.handleLogin}>
-        <label>Login or Signup!</label>
-        <input type="text" name="name" placeholder="name" onChange={this.handleChange} />
-        <input type="text" name="username" placeholder="username" onChange={this.handleChange} />
-        <input type="password" name="password" placeholder="password" onChange={this.handleChange} />
-
-        <input type="submit" value="Log In" />
-      </form>
+      <Form onSubmit={this.handleLogin}>
+        <Form.Field>
+          <label>Name</label>
+          <input type="text" name="name" onChange={this.handleChange} />
+        </Form.Field>
+        <Form.Field>
+          <label>Username</label>
+          <input type="text" name="username" onChange={this.handleChange} />
+        </Form.Field>
+        <Form.Field>
+          <label>Password</label>
+          <input type="password" name="password" onChange={this.handleChange} />
+        </Form.Field>
+        <Button type='submit'>Submit</Button>
+      </Form>
     )
   }
 }
