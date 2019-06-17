@@ -2,6 +2,7 @@ import React from 'react';
 import './App.css';
 import NotesContainer from './NotesContainer.js'
 import NavContainer from './NavContainer.js'
+import Header from './Header.js'
 import { Switch, Route } from 'react-router-dom'
 import LoginPage from './LoginPage'
 const USER_API = "http://localhost:3000/users"
@@ -152,9 +153,7 @@ export default class App extends React.Component {
 
     return (
       <div className="grid-container">
-        <img src="/noogle-icon.png" alt="noogle logo"></img>
-        <h1>Noogle</h1>
-        <button onClick={this.logout}>Sign Out</button>
+        <Header logout={this.logout}/>
         <NavContainer
           newFolderName={this.newFolderName}
           addFolder={this.addFolder}

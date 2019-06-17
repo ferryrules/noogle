@@ -6,12 +6,6 @@ class LoginPage extends React.Component {
     password: ''
   }
 
-  // componentDidMount() {
-  //   if (!!localStorage.getItem("token")) {
-  //     this.props.redirect("index")
-  //   }
-  // }
-
   handleChange = (event) => {
     this.setState({
       [event.target.name]: event.target.value
@@ -24,8 +18,6 @@ class LoginPage extends React.Component {
   }
 
   render() {
-    console.log(this.state);
-
     return (
       <form onSubmit={this.handleLogin}>
         <input type="text" name="username" onChange={this.handleChange} />
