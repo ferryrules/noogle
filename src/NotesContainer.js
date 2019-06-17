@@ -95,15 +95,16 @@ export default class NotesContainer extends Component {
             {folder.name}
           </span>
 
-          { !!folder 
+          { !!folder
             ? (<span className="addCollaboratorContainer">
                 <input
                   onChange={this.shareWithUser}
                   placeholder="Enter username"
-                  value={this.state.shareWithUser} />) 
+                  value={this.state.shareWithUser} />
+              </span>) 
             : null }
-          { !!folder 
-            ? <button onClick={this.shareFolder}>Share</button>  
+          { !!folder
+            ? <button onClick={this.shareFolder}>Share</button>
             : null }
         </h2>
 

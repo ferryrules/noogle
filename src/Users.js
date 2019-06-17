@@ -10,7 +10,6 @@ export default class Users extends Component {
           <span>Welcome, </span>
           <span className="navUsername">{this.props.user}!</span>
         </div>
-        <img src="https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909__340.png" />
       </div>
     )
   }

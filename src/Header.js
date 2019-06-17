@@ -6,7 +6,6 @@ export default class Header extends React.Component  {
       <div className="headerContainer">
         <img height="75px" width="75px" src="/noogle-icon.png" alt="noogle icon" />
         <h1>Noogle</h1>
-        <img src="/noogle-icon.png" alt="noogle icon" />
       </div>
     )
   }
