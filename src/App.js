@@ -7,38 +7,39 @@ import LoginPage from './LoginPage'
 const USER_API = "http://localhost:3000/users"
 const FOLDER_API = "http://localhost:3000/folders"
 
-class App extends React.Component {
+export default class App extends React.Component {
 
   state = {
-    page: "login",
     users: [],
     folders: [],
     thisFolder: [],
-    currentUser: 1,
-    currentSession: true,
+    currentUser: [],
     newFolder: "",
     shareFolderWithUser: ""
   }
 
-  redirect = (page) => {
-    this.setState({
-      page: page
-    })
+  componentDidMount() {
+    let user = localStorage.getItem('username')
+    if (!!user) {
+      // console.log(user);
+      this.stopFuckingFetching(user)
+    }
   }
 
   stopFuckingFetching = (username) => {
     fetch(USER_API)
     .then(r => r.json())
     .then(users => {
-      console.log("fetch", users);
+      // console.log("fetch", users);
       let user = users.find(u=>u.username===username)
+      // localStorage.setItem('token', 'logged-in')
+      localStorage.setItem('username', user.username)
+      // console.log("localStorage", localStorage);
       this.setState({
-        page: "",
         users,
         folders: user.folders,
         thisFolder: user.folders[0],
-        currentUser: user.id,
-        currentSession: true
+        currentUser: user.id
       })
     })
   }
@@ -52,7 +53,7 @@ class App extends React.Component {
 
   addFolder = (e) => {
     e.preventDefault()
-    console.log(this.state.newFolderName);
+    // console.log(this.state.newFolderName);
     fetch(FOLDER_API,{
       method: "POST",
       headers: {
@@ -66,7 +67,7 @@ class App extends React.Component {
     })
     .then(r=>r.json())
     .then(myFolder=>{
-      console.log(myFolder);
+      // console.log(myFolder);
       let folder = {
         name: myFolder.name,
         id: myFolder.id,
@@ -90,11 +91,12 @@ class App extends React.Component {
   }
 
   deleteFolder = (e) => {
-    console.log(e.target.id);
+    // console.log(e.target.id);
     let findFolder = this.state.folders.filter(f=>{
       return f.id !== parseInt(e.target.id)
     })
-    fetch(FOLDER_API+`/${e.target.id}`, {method: "DELETE"})
+    fetch(FOLDER_API+`/${e.target.id}`, {
+      method: "DELETE"})
     this.setState({
       folders: findFolder
     })
@@ -102,11 +104,11 @@ class App extends React.Component {
 
   shareFolder = (e) => {
     e.preventDefault()
-    console.log(e.target.id);
+    // console.log(e.target.id);
     let grabUser = this.state.users.find(u=>{
       return u.username === this.state.shareFolderWithUser
     })
-    console.log("grabUser", grabUser);
+    // console.log("grabUser", grabUser);
     if (grabUser) {
       fetch(FOLDER_API+`/${this.state.thisFolder.id}`, {
         method: "POST",
@@ -125,25 +127,24 @@ class App extends React.Component {
     }
   }
 
-  addNewUser = (e) => {
-    console.log(e.target.value);
+  shareWithUser = (e) => {
+    // console.log(e.target.value);
     this.setState({
       shareFolderWithUser: e.target.value
     })
   }
 
   logout = (e) => {
-    // localStorage.clear()
+    localStorage.clear()
     this.setState({
-      page: "login",
-      currentSession: false
+      currentUser: []
     })
   }
 
   render() {
     const { folders, thisFolder, newFolderName, currentUser } = this.state
-    console.log("app", this.state.users);
-    if (this.state.page === "login" && this.state.currentSession === false) {
+    // console.log("app", this.state.users);
+    if (!localStorage.getItem('username')) {
       return <LoginPage okToFetch={this.stopFuckingFetching} redirect={this.redirect} />
     }
 
@@ -161,11 +162,9 @@ class App extends React.Component {
           folder={thisFolder}
           folders={folders}
           user={currentUser}
-          addNewUser={this.addNewUser}
+          shareWithUser={this.shareWithUser}
           shareFolder={this.shareFolder}/>
       </div>
     );
   }
 }
-
-export default App;
