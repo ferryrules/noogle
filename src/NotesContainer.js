@@ -13,7 +13,6 @@ export default class NotesContainer extends Component {
     fetch(NOTE_API)
     .then(r => r.json())
     .then(notes => {
-      // console.log("notes", notes)
       this.setState({
         notes
       })
@@ -21,7 +20,6 @@ export default class NotesContainer extends Component {
   }
 
   newNote = (e) => {
-    // console.log(e.target.value);
     this.setState({
       newNote: e.target.value
     })
@@ -68,10 +66,12 @@ export default class NotesContainer extends Component {
     const folderNotes = this.state.notes.filter(n=>{
       return n.folder_id === this.props.folder.id
     })
+
     const eachNote = folderNotes.map(n=>{
       let iWroteThis = users.find(u=>{
         return parseInt(u.id) === n.user_id
       })
+      console.log(iWroteThis);
       return <Notes user={iWroteThis} note={n.note} id={n.id} key={n.id} deleteMe={this.deleteMe} />
     })
 

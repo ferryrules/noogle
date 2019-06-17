@@ -3,7 +3,6 @@ import './App.css';
 import NotesContainer from './NotesContainer.js'
 import NavContainer from './NavContainer.js'
 import Header from './Header.js'
-import { Switch, Route } from 'react-router-dom'
 import LoginPage from './LoginPage'
 const USER_API = "http://localhost:3000/users"
 const FOLDER_API = "http://localhost:3000/folders"
@@ -145,8 +144,8 @@ export default class App extends React.Component {
   }
 
   render() {
-    const { folders, thisFolder, newFolderName, users, currentUser, currentUsername } = this.state
-    console.log("app", this.state.users);
+    const { folders, thisFolder, users, currentUser, currentUsername } = this.state
+    // console.log("app", this.state.users);
     if (!localStorage.getItem('username')) {
       return <LoginPage okToFetch={this.stopFuckingFetching} redirect={this.redirect} />
     }
@@ -166,6 +165,7 @@ export default class App extends React.Component {
           folder={thisFolder}
           folders={folders}
           users={users}
+          user={currentUser}
           shareWithUser={this.shareWithUser}
           shareFolder={this.shareFolder}/>
       </div>
