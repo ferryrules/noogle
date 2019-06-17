@@ -3,7 +3,8 @@ import './App.css';
 import NotesContainer from './NotesContainer.js'
 import NavContainer from './NavContainer.js'
 import Header from './Header.js'
-import LoginPage from './LoginPage'
+import LoginPage from './LoginPage.js'
+import Signup from './Signup.js'
 const USER_API = "http://localhost:3000/users"
 const FOLDER_API = "http://localhost:3000/folders"
 
@@ -21,28 +22,35 @@ export default class App extends React.Component {
 
   componentDidMount() {
     let user = localStorage.getItem('username')
-    if (!!user) {
-      // console.log(user);
-      this.stopFuckingFetching(user)
-    }
+    fetch(USER_API)
+    .then(r=>r.json())
+    .then(users=>{
+      this.setState({
+        users
+      })
+    })
+    .then(users=>{
+      if (!!user) {
+        this.stopFuckingFetching(user)
+      }
+    })
+  }
+
+  newUser = (user) => {
+    this.setState({
+      users: [...this.state.users, user]
+    })
   }
 
   stopFuckingFetching = (username) => {
-    fetch(USER_API)
-    .then(r => r.json())
-    .then(users => {
-      // console.log("fetch", users);
-      let user = users.find(u=>u.username===username)
-      // localStorage.setItem('token', 'logged-in')
-      localStorage.setItem('username', user.username)
-      // console.log("localStorage", localStorage);
-      this.setState({
-        users,
-        folders: user.folders,
-        thisFolder: user.folders[0],
-        currentUser: user.id,
-        currentUsername: user.username
-      })
+    let user = this.state.users.find(u=>u.username===username)
+    localStorage.setItem('username', user.username)
+
+    this.setState({
+      folders: user.folders,
+      thisFolder: user.folders[0] || '',
+      currentUser: user.id,
+      currentUsername: user.username
     })
   }
 
@@ -145,9 +153,9 @@ export default class App extends React.Component {
 
   render() {
     const { folders, thisFolder, users, currentUser, currentUsername } = this.state
-    // console.log("app", this.state.users);
+
     if (!localStorage.getItem('username')) {
-      return <LoginPage okToFetch={this.stopFuckingFetching} redirect={this.redirect} />
+      return <LoginPage users={this.state.users} newUser={this.newUser} okToFetch={this.stopFuckingFetching} redirect={this.redirect} />
     }
 
     return (

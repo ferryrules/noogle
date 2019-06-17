@@ -1,6 +1,6 @@
 import React from 'react';
 
-export default class LoginPage extends React.Component  {
+export default class Header extends React.Component  {
   render () {
     return(
       <div>
