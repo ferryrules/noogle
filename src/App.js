@@ -14,6 +14,7 @@ export default class App extends React.Component {
     folders: [],
     thisFolder: [],
     currentUser: [],
+    currentUsername: "",
     newFolder: "",
     shareFolderWithUser: ""
   }
@@ -39,7 +40,8 @@ export default class App extends React.Component {
         users,
         folders: user.folders,
         thisFolder: user.folders[0],
-        currentUser: user.id
+        currentUser: user.id,
+        currentUsername: user.username
       })
     })
   }
@@ -142,8 +144,8 @@ export default class App extends React.Component {
   }
 
   render() {
-    const { folders, thisFolder, newFolderName, currentUser } = this.state
-    // console.log("app", this.state.users);
+    const { folders, thisFolder, newFolderName, users, currentUser, currentUsername } = this.state
+    console.log("app", this.state.users);
     if (!localStorage.getItem('username')) {
       return <LoginPage okToFetch={this.stopFuckingFetching} redirect={this.redirect} />
     }
@@ -157,11 +159,12 @@ export default class App extends React.Component {
           changeFolder={this.changeFolder}
           deleteFolder={this.deleteFolder}
           folders={folders}
-          user={currentUser}/>
+          user={currentUser}
+          username={currentUsername}/>
         <NotesContainer
           folder={thisFolder}
           folders={folders}
-          user={currentUser}
+          users={users}
           shareWithUser={this.shareWithUser}
           shareFolder={this.shareFolder}/>
       </div>

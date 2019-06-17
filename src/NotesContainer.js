@@ -63,13 +63,16 @@ export default class NotesContainer extends Component {
   }
 
   render() {
-    const { folder, shareWithUser, shareFolder } = this.props
-    
+    const { folder, shareWithUser, shareFolder, users } = this.props
+
     const folderNotes = this.state.notes.filter(n=>{
       return n.folder_id === this.props.folder.id
     })
     const eachNote = folderNotes.map(n=>{
-      return <Notes note={n.note} id={n.id} key={n.id} deleteMe={this.deleteMe} />
+      let iWroteThis = users.find(u=>{
+        return parseInt(u.id) === n.user_id
+      })
+      return <Notes user={iWroteThis} note={n.note} id={n.id} key={n.id} deleteMe={this.deleteMe} />
     })
 
     return (
