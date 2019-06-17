@@ -8,6 +8,9 @@ export default class Notes extends Component {
         <div>
           <li>{this.props.user.username}: {this.props.note}
             <button id={this.props.id} onClick={this.props.deleteMe}>x</button>
+            <ul>
+            <a href={this.props.url}>{this.props.url}</a>
+            </ul>
           </li>
         </div>
       </div>

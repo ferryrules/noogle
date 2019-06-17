@@ -85,7 +85,7 @@ export default class NotesContainer extends Component {
       let iWroteThis = users.find(u=>{
         return parseInt(u.id) === n.user_id
       })
-      return <Notes user={iWroteThis} note={n.note} id={n.id} key={n.id} deleteMe={this.deleteMe} />
+      return <Notes user={iWroteThis} note={n.note} url={n.url} id={n.id} key={n.id} deleteMe={this.deleteMe} />
     })
 
     return (
