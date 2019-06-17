@@ -75,7 +75,7 @@ export default class NotesContainer extends Component {
   }
 
   render() {
-    const { folder, shareFolder, users } = this.props
+    const { folder, users } = this.props
 
     const folderNotes = this.state.notes.filter(n=>{
       return n.folder_id === this.props.folder.id
@@ -101,7 +101,7 @@ export default class NotesContainer extends Component {
                   onChange={this.shareWithUser}
                   placeholder="Enter username"
                   value={this.state.shareWithUser} />
-              </span>) 
+              </span>)
             : null }
           { !!folder
             ? <button onClick={this.shareFolder}>Share</button>
