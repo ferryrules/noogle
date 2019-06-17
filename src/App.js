@@ -152,6 +152,8 @@ export default class App extends React.Component {
 
     return (
       <div className="grid-container">
+        <img src="/noogle-icon.png" alt="noogle logo"></img>
+        <h1>Noogle</h1>
         <button onClick={this.logout}>Sign Out</button>
         <NavContainer
           newFolderName={this.newFolderName}
