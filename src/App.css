@@ -1,0 +1,58 @@
+html {
+  height: 100%;
+}
+.gridContainer {
+  display: flex;
+}
+.headerContainer {
+  align-self: center;
+  padding-top: 2%;
+}
+.navContainer {
+
+}
+.nav_folders_list {
+  margin: 15px;
+  border: 2.5px ridge red;
+}
+.nav_profile {
+  display:flex;
+  justify-content: space-between;
+  padding-top: 15%;
+}
+.welcomeParagraphWrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding-left: 9%;
+
+}
+.navUsername {
+  padding-left: 15px;
+  padding-top: 7.5px;
+  font-weight: bold;
+
+}
+.nav_profile img {
+    width: 100px;
+    height: 100px;
+    padding-right: 10%;
+}
+
+.leftGridContainer {
+  display: flex;
+  flex-direction: column;
+  border: 1.5px double white;
+  background-image: linear-gradient(#003366, navy);
+
+}
+.notes_container {
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
+  align-content: center;
+}
+.notes_container_header {
+  display: flex;
+  justify-content: space-between;
+}

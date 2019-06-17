@@ -64,7 +64,6 @@ export default class NotesContainer extends Component {
 
   render() {
     const { folder, shareWithUser, shareFolder, users } = this.props
-
     const folderNotes = this.state.notes.filter(n=>{
       return n.folder_id === this.props.folder.id
     })
@@ -77,10 +76,15 @@ export default class NotesContainer extends Component {
 
     return (
       <div className="notes_container">
-        <h2
-          className="notes_container_header">{folder.name}
-          <input onChange={shareWithUser} placeholder="Enter username" />
-          <button onClick={shareFolder}>Share</button>
+        <h2 className="notes_container_header">
+        <span className="headerName">
+          {folder.name}
+        </span>
+
+          <span className="addCollaboratorContainer">
+            <input onChange={shareWithUser} placeholder="Enter username" />
+            <button onClick={shareFolder}>Share</button>
+          </span>
         </h2>
         <ul className="notes_container_list">
           {eachNote}

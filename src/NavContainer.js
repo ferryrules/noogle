@@ -7,8 +7,9 @@ export default class NavContainer extends Component {
   render() {
     const { newFolderName, addFolder, changeFolder, deleteFolder, folders, addUser, user, username } = this.props
     return (
-      <div className="nav_container">
-        <Users user={username}/>
+      <div className="navContainer">
+        <Users
+          user={username}/>
         <Folders
           addFolder={addFolder}
           newFolderName={newFolderName}

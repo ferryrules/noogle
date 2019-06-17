@@ -152,16 +152,19 @@ export default class App extends React.Component {
     }
 
     return (
-      <div className="grid-container">
-        <Header logout={this.logout}/>
-        <NavContainer
-          newFolderName={this.newFolderName}
-          addFolder={this.addFolder}
-          changeFolder={this.changeFolder}
-          deleteFolder={this.deleteFolder}
-          folders={folders}
-          user={currentUser}
-          username={currentUsername}/>
+      <div className="gridContainer">
+        <div className="leftGridContainer">
+          <Header />
+          <NavContainer
+            newFolderName={this.newFolderName}
+            addFolder={this.addFolder}
+            changeFolder={this.changeFolder}
+            deleteFolder={this.deleteFolder}
+            folders={folders}
+            user={currentUser}
+            username={currentUsername}
+            logout={this.logout}/>
+          </div>
         <NotesContainer
           folder={thisFolder}
           folders={folders}
