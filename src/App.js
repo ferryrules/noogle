@@ -4,7 +4,6 @@ import NotesContainer from './NotesContainer.js'
 import NavContainer from './NavContainer.js'
 import Header from './Header.js'
 import LoginPage from './LoginPage.js'
-import Signup from './Signup.js'
 const USER_API = "http://localhost:3000/users"
 const FOLDER_API = "http://localhost:3000/folders"
 
@@ -16,8 +15,7 @@ export default class App extends React.Component {
     thisFolder: [],
     currentUser: [],
     currentUsername: "",
-    newFolder: "",
-    shareFolderWithUser: ""
+    newFolder: ""
   }
 
   componentDidMount() {
@@ -25,13 +23,15 @@ export default class App extends React.Component {
     fetch(USER_API)
     .then(r=>r.json())
     .then(users=>{
-      this.setState({
-        users
-      })
-    })
-    .then(users=>{
-      if (!!user) {
-        this.stopFuckingFetching(user)
+      let thisUser = users.find(u=>u.username===user)
+      if (!!thisUser) {
+        this.setState({
+          users,
+          folders: thisUser.folders || [],
+          thisFolder: thisUser.folders[0] || '',
+          currentUser: thisUser.id || [],
+          currentUsername: thisUser.username || ''
+        })
       }
     })
   }
@@ -45,7 +45,6 @@ export default class App extends React.Component {
   stopFuckingFetching = (username) => {
     let user = this.state.users.find(u=>u.username===username)
     localStorage.setItem('username', user.username)
-
     this.setState({
       folders: user.folders,
       thisFolder: user.folders[0] || '',
@@ -55,7 +54,6 @@ export default class App extends React.Component {
   }
 
   newFolderName = (e) => {
-    // console.log(e.target.value);
     this.setState({
       newFolder: e.target.value
     })
@@ -63,7 +61,6 @@ export default class App extends React.Component {
 
   addFolder = (e) => {
     e.preventDefault()
-    // console.log(this.state.newFolderName);
     fetch(FOLDER_API,{
       method: "POST",
       headers: {
@@ -77,13 +74,11 @@ export default class App extends React.Component {
     })
     .then(r=>r.json())
     .then(myFolder=>{
-      // console.log(myFolder);
       let folder = {
         name: myFolder.name,
         id: myFolder.id,
         notes: []
       }
-      // debugger
       this.setState({
         folders: [...this.state.folders, folder],
         newFolderName: ""
@@ -112,13 +107,11 @@ export default class App extends React.Component {
     })
   }
 
-  shareFolder = (e) => {
+  shareFolder = (e, username) => {
     e.preventDefault()
-    // console.log(e.target.id);
     let grabUser = this.state.users.find(u=>{
-      return u.username === this.state.shareFolderWithUser
+      return u.username === username
     })
-    // console.log("grabUser", grabUser);
     if (grabUser) {
       fetch(FOLDER_API+`/${this.state.thisFolder.id}`, {
         method: "POST",
@@ -131,17 +124,7 @@ export default class App extends React.Component {
           user_id: grabUser.id
         })
       })
-      this.setState({
-        addUserInput: ""
-      })
     }
-  }
-
-  shareWithUser = (e) => {
-    // console.log(e.target.value);
-    this.setState({
-      shareFolderWithUser: e.target.value
-    })
   }
 
   logout = (e) => {
@@ -174,7 +157,6 @@ export default class App extends React.Component {
           folders={folders}
           users={users}
           user={currentUser}
-          shareWithUser={this.shareWithUser}
           shareFolder={this.shareFolder}/>
       </div>
     );

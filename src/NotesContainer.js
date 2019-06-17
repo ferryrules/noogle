@@ -6,7 +6,8 @@ export default class NotesContainer extends Component {
 
   state = {
     notes: [],
-    newNote: ""
+    newNote: "",
+    shareWithUser: ""
   }
 
   componentDidMount() {
@@ -60,9 +61,22 @@ export default class NotesContainer extends Component {
     })
   }
 
+  shareWithUser = (e) => {
+    this.setState({
+      shareWithUser: e.target.value
+    })
+  }
+
+  shareFolder = (e) => {
+    this.props.shareFolder(e,this.state.shareWithUser)
+    this.setState({
+      shareWithUser: ""
+    })
+  }
+
   render() {
-    const { folder, shareWithUser, shareFolder, users } = this.props
-    
+    const { folder, shareFolder, users } = this.props
+
     const folderNotes = this.state.notes.filter(n=>{
       return n.folder_id === this.props.folder.id
     })
@@ -74,23 +88,26 @@ export default class NotesContainer extends Component {
       return <Notes user={iWroteThis} note={n.note} id={n.id} key={n.id} deleteMe={this.deleteMe} />
     })
 
-    console.log("folder notes", folderNotes);
-
     return (
       <div className="notes_container">
-        { !!folder ? <h2
+        <h2
           className="notes_container_header">{folder.name}
-          <input onChange={shareWithUser} placeholder="Enter username" />
-          <button onClick={shareFolder}>Share</button>
-        </h2> : null }
 
-        { !!folderNotes ? <ul className="notes_container_list">
+          { !!folder ? <input
+            onChange={this.shareWithUser}
+            placeholder="Enter username"
+            value={this.state.shareWithUser} /> : null }
+          { !!folder ? <button onClick={this.shareFolder}>Share</button>  : null }
+
+        </h2>
+
+        <ul className="notes_container_list">
           {eachNote}
-        </ul> : null }
+        </ul>
 
         <form className="notes_container_compose">
-          <input type="text" name="new_note_text" placeholder={`Note`} value={this.state.newNote} onChange={this.newNote}/>
-          <input type="submit" onClick={this.saveNewNote}/>
+          { !!folder ? <input type="text" name="new_note_text" placeholder={`Note`} value={this.state.newNote} onChange={this.newNote}/> : null }
+          { !!folder ? <input type="submit" onClick={this.saveNewNote}/> : null }
         </form>
       </div>
     )
