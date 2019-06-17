@@ -6,14 +6,14 @@ export default class NotesContainer extends Component {
 
   state = {
     notes: [],
-    newNote: ""
+    newNote: "",
+    shareWithUser: ""
   }
 
   componentDidMount() {
     fetch(NOTE_API)
     .then(r => r.json())
     .then(notes => {
-      // console.log("notes", notes)
       this.setState({
         notes
       })
@@ -21,7 +21,6 @@ export default class NotesContainer extends Component {
   }
 
   newNote = (e) => {
-    // console.log(e.target.value);
     this.setState({
       newNote: e.target.value
     })
@@ -62,11 +61,26 @@ export default class NotesContainer extends Component {
     })
   }
 
+  shareWithUser = (e) => {
+    this.setState({
+      shareWithUser: e.target.value
+    })
+  }
+
+  shareFolder = (e) => {
+    this.props.shareFolder(e,this.state.shareWithUser)
+    this.setState({
+      shareWithUser: ""
+    })
+  }
+
   render() {
-    const { folder, shareWithUser, shareFolder, users } = this.props
+    const { folder, shareFolder, users } = this.props
+
     const folderNotes = this.state.notes.filter(n=>{
       return n.folder_id === this.props.folder.id
     })
+
     const eachNote = folderNotes.map(n=>{
       let iWroteThis = users.find(u=>{
         return parseInt(u.id) === n.user_id
@@ -77,21 +91,29 @@ export default class NotesContainer extends Component {
     return (
       <div className="notes_container">
         <h2 className="notes_container_header">
-        <span className="headerName">
-          {folder.name}
-        </span>
-
-          <span className="addCollaboratorContainer">
-            <input onChange={shareWithUser} placeholder="Enter username" />
-            <button onClick={shareFolder}>Share</button>
+          <span className="headerName">
+            {folder.name}
           </span>
+
+          { !!folder 
+            ? (<span className="addCollaboratorContainer">
+                <input
+                  onChange={this.shareWithUser}
+                  placeholder="Enter username"
+                  value={this.state.shareWithUser} />) 
+            : null }
+          { !!folder 
+            ? <button onClick={this.shareFolder}>Share</button>  
+            : null }
         </h2>
+
         <ul className="notes_container_list">
           {eachNote}
         </ul>
+
         <form className="notes_container_compose">
-          <input type="text" name="new_note_text" placeholder={`Note`} value={this.state.newNote} onChange={this.newNote}/>
-          <input type="submit" onClick={this.saveNewNote}/>
+          { !!folder ? <input type="text" name="new_note_text" placeholder={`Note`} value={this.state.newNote} onChange={this.newNote}/> : null }
+          { !!folder ? <input type="submit" onClick={this.saveNewNote}/> : null }
         </form>
       </div>
     )

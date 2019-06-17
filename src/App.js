@@ -3,8 +3,7 @@ import './App.css';
 import NotesContainer from './NotesContainer.js'
 import NavContainer from './NavContainer.js'
 import Header from './Header.js'
-import { Switch, Route } from 'react-router-dom'
-import LoginPage from './LoginPage'
+import LoginPage from './LoginPage.js'
 const USER_API = "http://localhost:3000/users"
 const FOLDER_API = "http://localhost:3000/folders"
 
@@ -16,39 +15,45 @@ export default class App extends React.Component {
     thisFolder: [],
     currentUser: [],
     currentUsername: "",
-    newFolder: "",
-    shareFolderWithUser: ""
+    newFolder: ""
   }
 
   componentDidMount() {
     let user = localStorage.getItem('username')
-    if (!!user) {
-      // console.log(user);
-      this.stopFuckingFetching(user)
-    }
+    fetch(USER_API)
+    .then(r=>r.json())
+    .then(users=>{
+      let thisUser = users.find(u=>u.username===user)
+      if (!!thisUser) {
+        this.setState({
+          users,
+          folders: thisUser.folders || [],
+          thisFolder: thisUser.folders[0] || '',
+          currentUser: thisUser.id || [],
+          currentUsername: thisUser.username || ''
+        })
+      }
+    })
+  }
+
+  newUser = (user) => {
+    this.setState({
+      users: [...this.state.users, user]
+    })
   }
 
   stopFuckingFetching = (username) => {
-    fetch(USER_API)
-    .then(r => r.json())
-    .then(users => {
-      // console.log("fetch", users);
-      let user = users.find(u=>u.username===username)
-      // localStorage.setItem('token', 'logged-in')
-      localStorage.setItem('username', user.username)
-      // console.log("localStorage", localStorage);
-      this.setState({
-        users,
-        folders: user.folders,
-        thisFolder: user.folders[0],
-        currentUser: user.id,
-        currentUsername: user.username
-      })
+    let user = this.state.users.find(u=>u.username===username)
+    localStorage.setItem('username', user.username)
+    this.setState({
+      folders: user.folders,
+      thisFolder: user.folders[0] || '',
+      currentUser: user.id,
+      currentUsername: user.username
     })
   }
 
   newFolderName = (e) => {
-    // console.log(e.target.value);
     this.setState({
       newFolder: e.target.value
     })
@@ -56,7 +61,6 @@ export default class App extends React.Component {
 
   addFolder = (e) => {
     e.preventDefault()
-    // console.log(this.state.newFolderName);
     fetch(FOLDER_API,{
       method: "POST",
       headers: {
@@ -70,13 +74,11 @@ export default class App extends React.Component {
     })
     .then(r=>r.json())
     .then(myFolder=>{
-      // console.log(myFolder);
       let folder = {
         name: myFolder.name,
         id: myFolder.id,
         notes: []
       }
-      // debugger
       this.setState({
         folders: [...this.state.folders, folder],
         newFolderName: ""
@@ -105,13 +107,11 @@ export default class App extends React.Component {
     })
   }
 
-  shareFolder = (e) => {
+  shareFolder = (e, username) => {
     e.preventDefault()
-    // console.log(e.target.id);
     let grabUser = this.state.users.find(u=>{
-      return u.username === this.state.shareFolderWithUser
+      return u.username === username
     })
-    // console.log("grabUser", grabUser);
     if (grabUser) {
       fetch(FOLDER_API+`/${this.state.thisFolder.id}`, {
         method: "POST",
@@ -124,17 +124,7 @@ export default class App extends React.Component {
           user_id: grabUser.id
         })
       })
-      this.setState({
-        addUserInput: ""
-      })
     }
-  }
-
-  shareWithUser = (e) => {
-    // console.log(e.target.value);
-    this.setState({
-      shareFolderWithUser: e.target.value
-    })
   }
 
   logout = (e) => {
@@ -145,10 +135,10 @@ export default class App extends React.Component {
   }
 
   render() {
-    const { folders, thisFolder, newFolderName, users, currentUser, currentUsername } = this.state
-    console.log("app", this.state.users);
+    const { folders, thisFolder, users, currentUser, currentUsername } = this.state
+
     if (!localStorage.getItem('username')) {
-      return <LoginPage okToFetch={this.stopFuckingFetching} redirect={this.redirect} />
+      return <LoginPage users={this.state.users} newUser={this.newUser} okToFetch={this.stopFuckingFetching} redirect={this.redirect} />
     }
 
     return (
@@ -169,7 +159,7 @@ export default class App extends React.Component {
           folder={thisFolder}
           folders={folders}
           users={users}
-          shareWithUser={this.shareWithUser}
+          user={currentUser}
           shareFolder={this.shareFolder}/>
       </div>
     );
