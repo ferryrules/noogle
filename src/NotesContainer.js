@@ -89,25 +89,26 @@ export default class NotesContainer extends Component {
     })
 
     return (
+      <div id="notes">
       <div className="notes_container">
-        <h2 className="notes_container_header">
-          <span className="headerName">
-            {folder.name}
-          </span>
+      <div className="addCollaboratorContainer">
+        <div>
+          <div className="addCollaborator folder"></div>
+          <div className="currentFolderName">{folder.name}</div>
+        </div>
 
+        <div className="addCollaborator input">
           { !!folder
-            ? (<span className="addCollaboratorContainer">
-                <input
+            ? (<input
                   onChange={this.shareWithUser}
                   placeholder="Enter username"
-                  value={this.state.shareWithUser} />
-              </span>)
+                  value={this.state.shareWithUser} />)
             : null }
           { !!folder
             ? <button onClick={this.shareFolder}>Share</button>
             : null }
-        </h2>
-
+        </div>
+      </div>
         <ul className="notes_container_list">
           {eachNote}
         </ul>
@@ -116,6 +117,7 @@ export default class NotesContainer extends Component {
           { !!folder ? <input type="text" name="new_note_text" placeholder={`Note`} value={this.state.newNote} onChange={this.newNote}/> : null }
           { !!folder ? <input type="submit" onClick={this.saveNewNote}/> : null }
         </form>
+      </div>
       </div>
     )
   }
