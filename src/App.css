@@ -45,20 +45,25 @@ input {
 
 .headerContainer {
   display: flex;
+  flex-direction: column;
   justify-content: center;
-  padding-top: 10%;
+  padding-top: 5%;
+  margin-left: 5%;
+  margin-right: 20%;
+  color: #F0F8FF;
 }
-.headerContainer img {
-  height: 100px;
-  width: 100px;
-  /* padding-left: 5%; */
+.headerContainer span {
+  font-size: 16px;
+  width: 60%;
+  font-style: italic;
+  align-self: flex-end;
+
 }
 .headerContainer div {
-  width: 50%;
-}
-.headerContainer div p {
-  font-style: italic;
-  font-weight: 600;
+  display:flex;
+  justify-content: space-evenly;
+  align-items: center;
+  font-family: butler;
 }
 
 .navContainer.button{
@@ -73,55 +78,166 @@ input {
 
 }
 .nav_folders_list {
-  margin: 15px;
-  border: 2.5px ridge red;
-}
-.nav_folders_list h2{
-  padding-left: 10%;
 }
 .nav_profile {
   display:flex;
   justify-content: space-around;
-  padding-top: 11%;
-  padding-bottom: 11%;
-}
-.nav_profile img {
-    width: 100px;
-    height: 100px;
-    padding-left: 10%;
+  padding-top: 20%;
+  padding-bottom: 20%;
 }
 
 .welcomeParagraphWrapper {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  padding-right: 9%;
-
+  color: azure;
 }
 .imgWrapper {
 }
 
+.navUsername {
+  padding-left: 15px;
+  padding-top: 7.5px;
+  font-weight: bold;
 
+}
+.nav_profile img {
+    width: 75px;
+    height: 75px;
+    padding-left: 10%;
+}
+
+.foldersHeadingWrapper {
+  padding-top: 10%;
+  color: azure;
+}
+.foldersHeading {
+  padding-left: 7.5%;
+}
 .foldersContainer {
+  font-style: normal;
 }
 .foldersContainer input{
   width: 70%;
-  margin-left: 5%;
+  border-radius: 10px;
+  border: 2px ridge transparent;
+  font-size: 14px;
 }
-.foldersContainer.button{
-  width: 10%;
+.addFolderBtn{
+  width: 13%;
+  font-size: 26px;
+  background-color: Transparent;
+  background-repeat:no-repeat;
+  border: none;
+  cursor:pointer;
+  overflow: hidden;
+  outline:none;
+  color: white;
+}
+.addFolderBtn:hover {
+  width: 13%;
+  font-size: 21px;
+  background-color: deepskyblue;
+  border-radius: 10px;
+  background-repeat:no-repeat;
+  cursor:pointer;
+  overflow: hidden;
+  text-align: center;
+  color: green;
+  font-weight: bold;
+}
+.folders-li {
+  display: flex;
+  justify-content: space-between;
+  background-color: steelblue;
+  border-bottom: 3px solid #173F5F;
+}
+.folderliststyle {
+  display: flex;
 }
 ul.foldersListStyle {
   list-style-type: none;
-}
-li div.folders-li {
-  display: flex;
-  justify-content: space-between;
-  width: 90%;
+  padding: 0;
+  margin: 0 auto;
 }
 li div.folders-li button{
 
 }
+.delFolderBtn {
+  background-color: Transparent;
+  background-repeat:no-repeat;
+  cursor:pointer;
+  overflow: hidden;
+  outline:none;
+  border:none;
+  font-weight: bold;
+  color: white;
+  font-size: 19px;
+}
+.delFolderBtn:hover {
+  background-color: Transparent;
+  background-repeat:no-repeat;
+  cursor:pointer;
+  overflow: hidden;
+  outline:none;
+  border:none;
+  font-weight: bold;
+  color: red;
+  font-size: 17px;
+}
+.openFolderBtn {
+  background-color: Transparent;
+  background-repeat:no-repeat;
+  cursor:pointer;
+  overflow: hidden;
+  outline:none;
+  border:none;
+  font-weight: normal;
+  color: white;
+  font-size: 15px;
+}
+.openFolderBtn:hover {
+  background: Transparent;
+  background-repeat:no-repeat;
+  cursor:pointer;
+  overflow: hidden;
+  outline:none;
+  border:none;
+  font-weight: bold;
+  color: white;
+  font-size: 15px;
+  border-radius: 6px;
+  border: 2px inset green;
+}
+
+.logoutBtnWrapper {
+  left: 6.5%;
+  position: absolute;
+  bottom: 2.5%;
+}
+.logoutBtn {
+  align-self: center;
+  background-color: inherit;
+  background-repeat:no-repeat;
+  cursor:pointer;
+  overflow: hidden;
+  color: steelblue;
+  border: 2px solid darkgray;
+  border-radius: 6px;
+
+}
+.logoutBtn:hover {
+  align-self: center;
+  background-color: deepskyblue;
+  background-repeat:no-repeat;
+  cursor:pointer;
+  overflow: hidden;
+  color: white;
+  border: 2px solid white;
+  border-radius: 6px;
+
+}
+
 
 /* NotesContainer */
 
@@ -146,6 +262,8 @@ li div.folders-li button{
   font-weight: 600;
   color: white;
 }
+
+
 
 .shareButton {
   display: inline-block;
