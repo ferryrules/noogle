@@ -143,7 +143,7 @@ export default class App extends React.Component {
 
     return (
       <div className="gridContainer">
-        <div className="leftGridContainer">
+        <div id="left-grid-container">
           <Header />
           <NavContainer
             newFolderName={this.newFolderName}
