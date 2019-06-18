@@ -154,6 +154,9 @@ export default class App extends React.Component {
             user={currentUser}
             username={currentUsername}
             logout={this.logout}/>
+          <div className="logoutBtnWrapper">
+            <button className="logoutBtn" onClick={this.logout}>Logout</button>
+          </div>
         </div>
           <NotesContainer
           folder={thisFolder}

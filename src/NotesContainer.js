@@ -7,6 +7,7 @@ export default class NotesContainer extends Component {
   state = {
     notes: [],
     newNote: "",
+    newURL: "",
     shareWithUser: ""
   }
 
@@ -26,6 +27,12 @@ export default class NotesContainer extends Component {
     })
   }
 
+  newURL = (e) => {
+    this.setState({
+      newURL: e.target.value
+    })
+  }
+
   saveNewNote = (e) => {
     e.preventDefault()
     fetch(NOTE_API, {
@@ -38,6 +45,7 @@ export default class NotesContainer extends Component {
         note: this.state.newNote,
         folder_id: this.props.folder.id,
         user_id: this.props.user,
+        url: this.state.newURL,
         key: this.state.newNote
       })
     })
@@ -46,7 +54,8 @@ export default class NotesContainer extends Component {
       console.log("new note", note);
       this.setState({
         notes: [...this.state.notes, note],
-        newNote: ""
+        newNote: "",
+        newURL: ""
       })
     })
   }
@@ -100,7 +109,7 @@ export default class NotesContainer extends Component {
                 value={this.state.shareWithUser} />)
             : null }
           { !!folder
-            ? <button className="shareButton shareButton1" onClick={this.shareFolder}><span>Share</span></button>
+            ? <button className="shareButton" onClick={this.shareFolder}><span>Share</span></button>
             : null }
         </div>
         <div className="notesContent">
@@ -110,7 +119,8 @@ export default class NotesContainer extends Component {
         </div>
         <div className="notesFooter staticBottom">
           <form>
-            { !!folder ? <input type="text" name="new_note_text" placeholder={`Note`} value={this.state.newNote} onChange={this.newNote}/> : null }
+            { !!folder ? <input className="noteText" type="text" name="new_note_text" placeholder={`Note`} value={this.state.newNote} onChange={this.newNote}/> : null }
+            { !!folder ? <input className="noteURL"  type="text" name="new_note_url" placeholder={`URL`} value={this.state.newURL} onChange={this.newURL}/> : null }
             { !!folder ? <input type="submit" onClick={this.saveNewNote}/> : null }
           </form>
         </div>

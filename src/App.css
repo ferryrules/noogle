@@ -4,7 +4,7 @@ html {
 }
 input {
     border: 5px solid white;
-    padding: 15px;
+    padding: 10px;
     margin: 0 0 10px 0;
     /* -webkit-box-shadow:
       inset 0 0 8px  rgba(0,0,0,0.1),
@@ -41,13 +41,8 @@ button {
   overflow: auto;
   flex-direction: column;
   border: 1.5px double white;
-  background-image: linear-gradient(#003366, navy);
+  background-color: #003366;
   width: 35%;
-}
-
-div.staticBottom {
-  position: static;
-  bottom: 0px;
 }
 
 .gridContainer {
@@ -88,7 +83,15 @@ div.staticBottom {
   padding-left: 15px;
   padding-top: 7.5px;
   font-weight: bold;
-
+}
+.navContainer {
+  overflow: auto;
+  flex-direction: column;
+  height: 100%;
+  width: 25.8%;
+  position: fixed;
+  overflow: auto;
+  background-color: #003366;
 }
 .nav_folders_list {
 }
@@ -97,12 +100,6 @@ div.staticBottom {
   justify-content: space-around;
   padding-top: 20%;
   padding-bottom: 20%;
-}
-.navUsername {
-  padding-left: 15px;
-  padding-top: 7.5px;
-  font-weight: bold;
-
 }
 .nav_profile img {
     width: 75px;
@@ -119,15 +116,15 @@ div.staticBottom {
 .imgWrapper {
 }
 
+.foldersContainer {
+  font-style: normal;
+}
 .foldersHeadingWrapper {
   padding-top: 10%;
   color: azure;
 }
 .foldersHeading {
   padding-left: 7.5%;
-}
-.foldersContainer {
-  font-style: normal;
 }
 .foldersContainer input{
   width: 70%;
@@ -174,6 +171,9 @@ ul.foldersListStyle {
 }
 li div.folders-li button{
 
+}
+.addFolderWrapper {
+  margin-left: 10px;
 }
 
 .delFolderBtn {
@@ -226,7 +226,7 @@ li div.folders-li button{
 
 .logoutBtnWrapper {
   left: 6.5%;
-  position: absolute;
+  position: fixed;
   bottom: 2.5%;
 }
 .logoutBtn {
@@ -260,28 +260,52 @@ li div.folders-li button{
   width: 100%;
 }
 .notesHeader {
+  border-top: 1.5px double white;
+  border-bottom: 1.5px double white;
+  border-right: 1.5px double white;
+  position: fixed;
+  top: 0;
+  width: 73.8%;
   overflow: hidden;
   background-color: #333;
 }
 .notesContent {
-  background-color: #ddd;
-  padding: 10px;
+  padding-bottom: 100px;
+  margin-top: 60px;
 }
 .notesFooter {
   background-color: #f1f1f1;
   padding: 10px;
-
+  position: fixed;
+  bottom: 0;
+  width: 100%;
 }
 .notesFolderName {
   font-size: 40px;
   font-weight: 600;
   color: white;
-  padding: 10px;
-  position: absolute;
+  vertical-align: middle;
+  padding-left: 20px
+}
+.noteText {
+  margin-right: 20px;
+  width: 30%;
+}
+.noteURL {
+  margin-right: 10px;
+  width: 25%;
 }
 
+.shareInput {
+  margin-left: 200px;
+  height: 5px;
+  margin-top: 10px;
+  background-color: #fff;
+}
 .shareButton {
+  position: fixed;
   float: right;
+  margin-top: 14px;
 }
 .shareButton span {
   cursor: pointer;
@@ -303,13 +327,6 @@ li div.folders-li button{
 .shareButton:hover span:after {
   opacity: 1;
   right: 0;
-}
-.shareInput {
-  padding: 10px;
-  height: 20px;
-  /* margin: 0 0 10px 0; */
-  background-color: #fff;
-  float: right;
 }
 
 .deleteNoteBtn:hover {
