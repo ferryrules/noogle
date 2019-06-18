@@ -12,18 +12,27 @@ export default class Folders extends Component {
     })
 
     const eachFolder = userFolders.map(f => {
-      return <li key={f.id}><button name={f.name} onClick={this.handleFolderClick} id={f.id}>{f.name}</button><button id={f.id} onClick={this.props.deleteFolder}>x</button></li>
+      return <li  key={f.id}>
+        <div className="folders-li">
+        <div>
+          <a href="" name={f.name} onClick={this.handleFolderClick} id={f.id}>📁 {f.name}</a>
+        </div><a href="" id={f.id} onClick={this.props.deleteFolder}>✘</a>
+        </div>
+      </li>
     })
 
     return (
-      <div className="nav_folders_list">
-        <h2>Folders</h2>
-        <input type="text" placeholder="New folder name" onChange={this.props.newFolderName}/>
-        <button onClick={this.props.addFolder}>+</button>
-        <ul>
+        <div className="foldersContainer">
+          <input type="text" placeholder="New folder name" onChange={this.props.newFolderName}/>
+          <button onClick={this.props.addFolder}>+</button>
+        <div className="nav_folders_list">
+          <h2>Folders</h2>
+          <ul className="foldersListStyle">
           {eachFolder}
-        </ul>
+          </ul>
+        </div>
       </div>
+
     )
   }
 }

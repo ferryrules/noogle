@@ -9,7 +9,6 @@ export default class NavContainer extends Component {
     return (
       <div className="navContainer">
         <Users
-          logout={logout}
           user={username}/>
         <Folders
           addFolder={addFolder}
@@ -19,6 +18,8 @@ export default class NavContainer extends Component {
           folders={folders}
           user={user}
           addUser={addUser} />
+          <button onClick={this.logout}>Logout</button>
+
       </div>
     )
   }

@@ -1,31 +1,59 @@
 html {
   height: 100%;
 }
+#root {
+  height: inherit;
+}
+#notes {
+    background-image: url('https://i.pinimg.com/originals/54/a8/6d/54a86dd124d3d999cf78571ed82313b2.jpg')
+}
 .gridContainer {
   display: flex;
+  height: inherit;
 }
 .headerContainer {
-  align-self: center;
-  padding-top: 2%;
+  display: flex;
+  justify-content: center;
+  padding-top: 10%;
 }
-.navContainer {
-
+.headerContainer img {
+  height: 100px;
+  width: 100px;
+  /* padding-left: 5%; */
+}
+.headerContainer div {
+  width: 50%;
+}
+.headerContainer div p {
+  font-style: italic;
+  font-weight: 600;
+}
+.navContainer.button{
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
 }
 .nav_folders_list {
   margin: 15px;
   border: 2.5px ridge red;
 }
+.nav_folders_list h2{
+  padding-left: 10%;
+}
 .nav_profile {
   display:flex;
-  justify-content: space-between;
-  padding-top: 15%;
+  justify-content: space-around;
+  padding-top: 11%;
+  padding-bottom: 11%;
 }
 .welcomeParagraphWrapper {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  padding-left: 9%;
+  padding-right: 9%;
 
+}
+.imgWrapper {
 }
 .navUsername {
   padding-left: 15px;
@@ -36,7 +64,7 @@ html {
 .nav_profile img {
     width: 100px;
     height: 100px;
-    padding-right: 10%;
+    padding-left: 10%;
 }
 
 .leftGridContainer {
@@ -44,15 +72,79 @@ html {
   flex-direction: column;
   border: 1.5px double white;
   background-image: linear-gradient(#003366, navy);
-
+  width: 25%;
 }
 .notes_container {
   display: flex;
-  justify-content: space-between;
   flex-direction: column;
-  align-content: center;
+  padding-top: 10%;
 }
-.notes_container_header {
+.addCollaborator.folder {
+  height: 55px;
+  width: 55px;
+  align-self: center;
+  background-image: url('https://www.pngfind.com/pngs/m/6-60466_folder-icon-png-sign-transparent-png.png');
+  background-size: contain;
+  background-repeat: no-repeat;
+
+}
+
+
+.foldersContainer {
+}
+.foldersContainer input{
+  width: 70%;
+  margin-left: 5%;
+}
+.foldersContainer.button{
+  width: 10%;
+}
+input {
+    border: 5px solid white;
+    -webkit-box-shadow:
+      inset 0 0 8px  rgba(0,0,0,0.1),
+            0 0 16px rgba(0,0,0,0.1);
+    -moz-box-shadow:
+      inset 0 0 8px  rgba(0,0,0,0.1),
+            0 0 16px rgba(0,0,0,0.1);
+    box-shadow:
+      inset 0 0 8px  rgba(0,0,0,0.1),
+            0 0 16px rgba(0,0,0,0.1);
+    padding: 15px;
+    background: rgba(255,255,255,0.5);
+    margin: 0 0 10px 0;
+}
+.addCollaboratorContainer {
+  display:flex;
+
+}
+.addCollaboratorContainer div{
+  padding-left: 10%;
+  display: flex;
+}
+ul.foldersListStyle {
+  list-style-type: none;
+}
+li div.folders-li {
   display: flex;
   justify-content: space-between;
+  width: 90%;
+}
+
+li div.folders-li button{
+
+}
+ul.notes_container_list {
+  margin: 2%;
+  border: 2.5px ridge navy;
+  list-style-type: none;
+
+}
+div.note {
+  background-color: lightblue;
+}
+.currentFolderName {
+  font-size: 40px;
+  font-weight: 600;
+  color: white;
 }
