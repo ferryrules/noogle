@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 export default class Folders extends Component {
 
   handleFolderClick = (e) => {
+
     this.props.changeFolder(e.target.name)
   }
 
@@ -15,8 +16,8 @@ export default class Folders extends Component {
       return <li  key={f.id}>
         <div className="folders-li">
         <div>
-          <a href="" name={f.name} onClick={this.handleFolderClick} id={f.id}>📁 {f.name}</a>
-        </div><a href="" id={f.id} onClick={this.props.deleteFolder}>✘</a>
+          <button name={f.name} onClick={this.handleFolderClick} id={f.id}>📁 {f.name}</button>
+        </div><button id={f.id} onClick={this.props.deleteFolder}>✘</button>
         </div>
       </li>
     })
