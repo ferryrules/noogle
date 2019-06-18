@@ -154,8 +154,8 @@ export default class App extends React.Component {
             user={currentUser}
             username={currentUsername}
             logout={this.logout}/>
-          </div>
-        <NotesContainer
+        </div>
+          <NotesContainer
           folder={thisFolder}
           folders={folders}
           users={users}

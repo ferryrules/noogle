@@ -3,7 +3,6 @@ import React, { Component } from 'react';
 export default class Folders extends Component {
 
   handleFolderClick = (e) => {
-
     this.props.changeFolder(e.target.name)
   }
 
