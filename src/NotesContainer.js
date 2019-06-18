@@ -94,7 +94,7 @@ export default class NotesContainer extends Component {
       <div className="addCollaboratorContainer">
         <div>
           <div className="addCollaborator folder"></div>
-          <div className="currentFolderName">{folder.name}</div>
+          <div className="notesFolderName">{folder.name}</div>
         </div>
 
         <div className="addCollaborator input">
