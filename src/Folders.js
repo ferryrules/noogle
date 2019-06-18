@@ -12,14 +12,18 @@ export default class Folders extends Component {
     })
 
     const eachFolder = userFolders.map(f => {
-      return <li  key={f.id}>
+      return <li key={f.id}>
         <div className="folders-li">
-        <div>
-          <button name={f.name} onClick={this.handleFolderClick} id={f.id}><span aria-label="folder" role="img">📁</span> {f.name}</button>
-        </div>
-        <button
-        id={f.id}
-        onClick={this.props.deleteFolder}><span aria-label="delete" role="img">✘</span></button>
+          <button
+            name={f.name}
+            onClick={this.handleFolderClick}
+            id={f.id}>
+            <span aria-label="folder" role="img">📁</span> {f.name}
+          </button>
+          <button
+            id={f.id}
+            onClick={this.props.deleteFolder}><span aria-label="delete" role="img">✘</span>
+          </button>
         </div>
       </li>
     })
