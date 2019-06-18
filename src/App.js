@@ -15,7 +15,8 @@ export default class App extends React.Component {
     thisFolder: [],
     currentUser: [],
     currentUsername: "",
-    newFolder: ""
+    newFolder: "",
+    change: false
   }
 
   componentDidMount() {
