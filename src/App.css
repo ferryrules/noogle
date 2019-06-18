@@ -4,7 +4,10 @@ html {
 }
 input {
     border: 5px solid white;
-    -webkit-box-shadow:
+    padding: 15px;
+    margin: 0 0 10px 0;
+    height: auto;
+    /* -webkit-box-shadow:
       inset 0 0 8px  rgba(0,0,0,0.1),
             0 0 16px rgba(0,0,0,0.1);
     -moz-box-shadow:
@@ -12,29 +15,40 @@ input {
             0 0 16px rgba(0,0,0,0.1);
     box-shadow:
       inset 0 0 8px  rgba(0,0,0,0.1),
-            0 0 16px rgba(0,0,0,0.1);
-    padding: 15px;
-    background: rgba(255,255,255,0.5);
-    margin: 0 0 10px 0;
+            0 0 16px rgba(0,0,0,0.1); */
+    /* background: rgba(255,255,255,0.5); */
+}
+button {
+  display: inline-block;
+  background-color: #008CBA;
+  color: #FFFFFF;
+  text-align: center;
+  font-size: 18px;
+  width: auto;
+  height: auto;
+  transition: all 0.5s;
+  cursor: pointer;
+  /* float: right; */
+  margin: 10px;
 }
 
 #root {
   height: inherit;
   width: inherit;
 }
-#notes {
-    /* background-image: url('https://i.pinimg.com/originals/54/a8/6d/54a86dd124d3d999cf78571ed82313b2.jpg'); */
-    background-color: #e7e7e7;
-    width: 100%;
-    margin: 0;
-    font-family: Arial, Helvetica, sans-serif;
-}
 #left-grid-container {
-  display: flex;
+  /* display: flex; */
+  /* position: fixed; */
+  overflow: auto;
   flex-direction: column;
   border: 1.5px double white;
   background-image: linear-gradient(#003366, navy);
-  width: 25%;
+  width: 35%;
+}
+
+div.staticBottom {
+  position: static;
+  bottom: 0px;
 }
 
 .gridContainer {
@@ -85,16 +99,6 @@ input {
   padding-top: 20%;
   padding-bottom: 20%;
 }
-
-.welcomeParagraphWrapper {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  color: azure;
-}
-.imgWrapper {
-}
-
 .navUsername {
   padding-left: 15px;
   padding-top: 7.5px;
@@ -105,6 +109,15 @@ input {
     width: 75px;
     height: 75px;
     padding-left: 10%;
+}
+
+.welcomeParagraphWrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  color: azure;
+}
+.imgWrapper {
 }
 
 .foldersHeadingWrapper {
@@ -163,6 +176,7 @@ ul.foldersListStyle {
 li div.folders-li button{
 
 }
+
 .delFolderBtn {
   background-color: Transparent;
   background-repeat:no-repeat;
@@ -185,6 +199,7 @@ li div.folders-li button{
   color: red;
   font-size: 17px;
 }
+
 .openFolderBtn {
   background-color: Transparent;
   background-repeat:no-repeat;
@@ -238,12 +253,12 @@ li div.folders-li button{
 
 }
 
-
 /* NotesContainer */
 
 .notesContainer {
   box-sizing: border-box;
   font-family: Arial, Helvetica, sans-serif;
+  width: 100%;
 }
 .notesHeader {
   overflow: hidden;
@@ -256,6 +271,7 @@ li div.folders-li button{
 .notesFooter {
   background-color: #f1f1f1;
   padding: 10px;
+
 }
 .notesFolderName {
   font-size: 40px;
@@ -263,23 +279,8 @@ li div.folders-li button{
   color: white;
 }
 
-
-
 .shareButton {
-  display: inline-block;
-  background-color: #008CBA;
-  color: #FFFFFF;
-  text-align: center;
-  font-size: 18px;
-  width: 90px;
-  height: 40px;
-  transition: all 0.5s;
-  cursor: pointer;
   float: right;
-  margin: 10px;
-  /* border-radius: 4px; */
-  /* border: none; */
-  /* padding: 5px; */
 }
 .shareButton span {
   cursor: pointer;
@@ -308,4 +309,8 @@ li div.folders-li button{
   /* margin: 0 0 10px 0; */
   background-color: #fff;
   float: right;
+}
+
+.deleteNoteBtn:hover {
+  color: red;
 }

@@ -108,7 +108,7 @@ export default class NotesContainer extends Component {
             {eachNote}
           </ul>
         </div>
-        <div className="notesFooter">
+        <div className="notesFooter staticBottom">
           <form>
             { !!folder ? <input type="text" name="new_note_text" placeholder={`Note`} value={this.state.newNote} onChange={this.newNote}/> : null }
             { !!folder ? <input type="submit" onClick={this.saveNewNote}/> : null }
