@@ -1,15 +1,19 @@
 html {
   height: 100%;
+  width: 100%;
 }
 #root {
   height: inherit;
+  width: inherit;
 }
 #notes {
-    background-image: url('https://i.pinimg.com/originals/54/a8/6d/54a86dd124d3d999cf78571ed82313b2.jpg')
+    background-image: url('https://i.pinimg.com/originals/54/a8/6d/54a86dd124d3d999cf78571ed82313b2.jpg');
+    width: 100%;
 }
 .gridContainer {
   display: flex;
   height: inherit;
+  width: inherit;
 }
 .headerContainer {
   display: flex;
