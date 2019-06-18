@@ -97,8 +97,9 @@ export default class App extends React.Component {
 
   deleteFolder = (e) => {
     let findFolder = this.state.folders.filter(f=>{
-      return f.id !== parseInt(e.target.id)
+      return f.id !== parseInt(e.currentTarget.id)
     })
+    console.log(findFolder);
     fetch(FOLDER_API+`/${e.currentTarget.id}`, {
       method: "DELETE"})
     this.setState({
