@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 
 export default class Notes extends Component {
   render() {
-    console.log(this.props.user);
     return (
       <div>
         <button

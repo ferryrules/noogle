@@ -15,8 +15,11 @@ export default class Folders extends Component {
       return <li  key={f.id}>
         <div className="folders-li">
         <div>
-          <button name={f.name} onClick={this.handleFolderClick} id={f.id}>📁 {f.name}</button>
-        </div><button id={f.id} onClick={this.props.deleteFolder}>✘</button>
+          <button name={f.name} onClick={this.handleFolderClick} id={f.id}><span aria-label="folder" role="img">📁</span> {f.name}</button>
+        </div>
+        <button
+        id={f.id}
+        onClick={this.props.deleteFolder}><span aria-label="delete" role="img">✘</span></button>
         </div>
       </li>
     })
