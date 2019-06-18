@@ -5,10 +5,11 @@ export default class Header extends React.Component  {
     return(
       <div className="headerContainer">
         <div>
-          <h1>Noogle</h1>
-          <p> - never get caught oogling for notes again! </p>
+              <img height="50px" width="50px" src="/noogle-icon.png" alt="noogle icon" />
+                <h2>Noogle</h2>
+                <h3>v1.0.0</h3>
         </div>
-        <img height="75px" width="75px" src="/noogle-icon.png" alt="noogle icon" />
+        <span> - never get caught oogling for notes again! </span>
       </div>
     )
   }

@@ -18,7 +18,9 @@ export default class NavContainer extends Component {
           folders={folders}
           user={user}
           addUser={addUser} />
-        <button onClick={logout}>Logout</button>
+        <div className="logoutBtnWrapper">
+          <button className="logoutBtn" onClick={logout}>Logout</button>
+        </div>
       </div>
     )
   }
