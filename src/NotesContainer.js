@@ -91,7 +91,7 @@ export default class NotesContainer extends Component {
     return (
       <div className="notesContainer">
         <div className="notesHeader">
-          <p className="notesFolderName">{folder.name}</p>
+          <label className="notesFolderName">{folder.name}</label>
           { !!folder
             ? (<input
                 className="shareInput"

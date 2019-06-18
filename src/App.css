@@ -6,7 +6,6 @@ input {
     border: 5px solid white;
     padding: 15px;
     margin: 0 0 10px 0;
-    height: auto;
     /* -webkit-box-shadow:
       inset 0 0 8px  rgba(0,0,0,0.1),
             0 0 16px rgba(0,0,0,0.1);
@@ -232,14 +231,14 @@ li div.folders-li button{
 }
 .logoutBtn {
   align-self: center;
-  background-color: inherit;
+  background-color: steelblue;
+  opacity: 75%;
   background-repeat:no-repeat;
   cursor:pointer;
   overflow: hidden;
-  color: steelblue;
+  color: white;
   border: 2px solid darkgray;
   border-radius: 6px;
-
 }
 .logoutBtn:hover {
   align-self: center;
@@ -277,6 +276,8 @@ li div.folders-li button{
   font-size: 40px;
   font-weight: 600;
   color: white;
+  padding: 10px;
+  position: absolute;
 }
 
 .shareButton {
