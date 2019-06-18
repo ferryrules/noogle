@@ -91,7 +91,7 @@ export default class NotesContainer extends Component {
     return (
       <div className="notesContainer">
         <div className="notesHeader">
-          <p className="currentFolderName">{folder.name}</p>
+          <p className="notesFolderName">{folder.name}</p>
           { !!folder
             ? (<input
                 className="shareInput"
@@ -108,10 +108,12 @@ export default class NotesContainer extends Component {
             {eachNote}
           </ul>
         </div>
-        <form className="notesFooter">
-          { !!folder ? <input type="text" name="new_note_text" placeholder={`Note`} value={this.state.newNote} onChange={this.newNote}/> : null }
-          { !!folder ? <input type="submit" onClick={this.saveNewNote}/> : null }
-        </form>
+        <div className="notesFooter">
+          <form>
+            { !!folder ? <input type="text" name="new_note_text" placeholder={`Note`} value={this.state.newNote} onChange={this.newNote}/> : null }
+            { !!folder ? <input type="submit" onClick={this.saveNewNote}/> : null }
+          </form>
+        </div>
       </div>
     )
   }
