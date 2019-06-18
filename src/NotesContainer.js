@@ -89,35 +89,31 @@ export default class NotesContainer extends Component {
     })
 
     return (
-      <div id="notes">
-      <div className="notes_container">
-      <div className="addCollaboratorContainer">
-        <div>
-          <div className="addCollaborator folder"></div>
-          <div className="currentFolderName">{folder.name}</div>
-        </div>
-
-        <div className="addCollaborator input">
+      <div className="notesContainer">
+        <div className="notesHeader">
+          <p className="notesFolderName">{folder.name}</p>
           { !!folder
             ? (<input
-                  onChange={this.shareWithUser}
-                  placeholder="Enter username"
-                  value={this.state.shareWithUser} />)
+                className="shareInput"
+                onChange={this.shareWithUser}
+                placeholder="Enter username"
+                value={this.state.shareWithUser} />)
             : null }
           { !!folder
-            ? <button onClick={this.shareFolder}>Share</button>
+            ? <button className="shareButton shareButton1" onClick={this.shareFolder}><span>Share</span></button>
             : null }
         </div>
-      </div>
-        <ul className="notes_container_list">
-          {eachNote}
-        </ul>
-
-        <form className="notes_container_compose">
-          { !!folder ? <input type="text" name="new_note_text" placeholder={`Note`} value={this.state.newNote} onChange={this.newNote}/> : null }
-          { !!folder ? <input type="submit" onClick={this.saveNewNote}/> : null }
-        </form>
-      </div>
+        <div className="notesContent">
+          <ul>
+            {eachNote}
+          </ul>
+        </div>
+        <div className="notesFooter">
+          <form>
+            { !!folder ? <input type="text" name="new_note_text" placeholder={`Note`} value={this.state.newNote} onChange={this.newNote}/> : null }
+            { !!folder ? <input type="submit" onClick={this.saveNewNote}/> : null }
+          </form>
+        </div>
       </div>
     )
   }
