@@ -124,7 +124,37 @@ export default class App extends React.Component {
           user_id: grabUser.id
         })
       })
+      .then(r=>r.json())
+      .then(folder=>{
+        this.componentDidMount()
+      })
     }
+  }
+
+  editFolder = (folderName) => {
+    let folder = this.state.thisFolder
+    let folders = this.state.folders
+    let notChanged = folders.filter(f=>{
+      return f.id !== folder.id
+    })
+    fetch(FOLDER_API + `/${this.state.thisFolder.id}`, {
+      method: "PATCH",
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+      },
+      body: JSON.stringify({
+        name: folderName
+      })
+    })
+    .then(r=>r.json())
+    .then(changed=>{
+      this.componentDidMount()
+      this.setState({
+        folders: [...notChanged, changed],
+        thisFolder: changed
+      })
+    })
   }
 
   logout = (e) => {
@@ -163,7 +193,8 @@ export default class App extends React.Component {
           folders={folders}
           users={users}
           user={currentUser}
-          shareFolder={this.shareFolder}/>
+          shareFolder={this.shareFolder}
+          editFolder={this.editFolder}/>
       </div>
     );
   }

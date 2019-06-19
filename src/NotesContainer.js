@@ -8,7 +8,13 @@ export default class NotesContainer extends Component {
     notes: [],
     newNote: "",
     newURL: "",
-    shareWithUser: ""
+    shareWithUser: "",
+    editFolderName: "",
+    editingFolder: false,
+    currentNote: [],
+    editNoteText: "",
+    editNoteURL: "",
+    editingNote: false,
   }
 
   componentDidMount() {
@@ -83,8 +89,74 @@ export default class NotesContainer extends Component {
     })
   }
 
+  editingFolder = (e) => {
+    let switcher = this.state.editingFolder
+    switcher = !switcher
+    this.setState({
+      editingFolder: switcher,
+      editFolderName: this.props.folder.name
+    })
+  }
+
+  editFolderName = (e) => {
+    this.setState({
+      editFolderName: e.target.value
+    })
+  }
+
+  saveFolderChange = (e) => {
+    let switcher = this.state.editingFolder
+    switcher = !switcher
+    this.setState({
+      editingFolder: switcher
+    })
+    this.props.editFolder(this.state.editFolderName)
+  }
+
+  editingNote = (note) => {
+    let switcher = this.state.editingNote
+    switcher = !switcher
+    this.setState({
+      currentNote: note,
+      editingNote: switcher,
+      editNoteText: note.note,
+      editNoteURL: note.url
+    })
+  }
+
+  editNoteShit = (e) => {
+    const { name, value } = e.target
+    this.setState({
+      [name]: value
+    })
+  }
+
+  saveNoteChange = (e) => {
+    let switcher = this.state.editingNote
+    switcher = !switcher
+    this.setState({
+      editingNote: switcher
+    })
+    fetch(NOTE_API + `/${this.state.currentNote.id}`, {
+      method: "PATCH",
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+      },
+      body: JSON.stringify({
+        note: this.state.editNoteText,
+        url: this.state.editNoteURL
+      })
+    })
+    .then(r=>r.json())
+    .then(note=>{
+      this.componentDidMount()
+    })
+  }
+
   render() {
     const { folder, users } = this.props
+    const { newNote, newURL, shareWithUser, editingFolder, editingNote } = this.state
 
     const folderNotes = this.state.notes.filter(n=>{
       return n.folder_id === this.props.folder.id
@@ -94,33 +166,68 @@ export default class NotesContainer extends Component {
       let iWroteThis = users.find(u=>{
         return parseInt(u.id) === n.user_id
       })
-      return <Notes user={iWroteThis} note={n.note} url={n.url} id={n.id} key={n.id} deleteMe={this.deleteMe} />
+      return <Notes
+            user={iWroteThis}
+            note={n}
+            id={n.id}
+            key={n.id}
+            deleteMe={this.deleteMe}
+            edit={this.editingNote} />
     })
 
     return (
       <div className="notesContainer">
         <div className="notesHeader">
-          <label className="notesFolderName">{folder.name}</label>
+
+          { !!editingFolder
+            ? (<div>
+                <input
+                  className="shareInput"
+                  onChange={this.editFolderName}
+                  value={this.state.editFolderName} />
+                <button onClick={this.saveFolderChange}>Save</button>
+              </div>)
+            : (<label
+                className="notesFolderName">{folder.name}
+                <button onClick={this.editingFolder}>Edit</button>
+              </label>) }
+
           { !!folder
             ? (<input
                 className="shareInput"
                 onChange={this.shareWithUser}
                 placeholder="Enter username"
-                value={this.state.shareWithUser} />)
+                value={shareWithUser} />)
             : null }
+
           { !!folder
             ? <button className="shareButton" onClick={this.shareFolder}><span>Share</span></button>
             : null }
+
         </div>
         <div className="notesContent">
           <ul>
-            {eachNote}
+            { !!editingNote
+              ? (<div>
+                  <input
+                    className="shareInput"
+                    name="editNoteText"
+                    onChange={this.editNoteShit}
+                    value={this.state.editNoteText} />
+                  <input
+                    className="shareInput"
+                    name="editNoteURL"
+                    onChange={this.editNoteShit}
+                    value={this.state.editNoteURL} />
+                  <button onClick={this.saveNoteChange}>Save</button>
+                </div>)
+              : eachNote }
           </ul>
         </div>
         <div className="notesFooter staticBottom">
           <form>
-            { !!folder ? <input className="noteText" type="text" name="new_note_text" placeholder={`Note`} value={this.state.newNote} onChange={this.newNote}/> : null }
-            { !!folder ? <input className="noteURL"  type="text" name="new_note_url" placeholder={`URL`} value={this.state.newURL} onChange={this.newURL}/> : null }
+            { !!folder ? <input className="noteText" type="text" name="new_note_text" placeholder={`Note`} value={newNote} onChange={this.newNote}/> : null }
+            { !!folder ? <input className="noteURL"  type="text" name="new_note_url" placeholder={`URL`} value={newURL} onChange={this.newURL}/> : null }
             { !!folder ? <input type="submit" onClick={this.saveNewNote}/> : null }
           </form>
         </div>

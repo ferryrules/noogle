@@ -5,7 +5,7 @@ import Users from './Users'
 export default class NavContainer extends Component {
 
   render() {
-    const { newFolderName, addFolder, changeFolder, deleteFolder, folders, addUser, user, username, logout } = this.props
+    const { newFolderName, addFolder, changeFolder, deleteFolder, folders, addUser, user, username } = this.props
     return (
       <div className="navContainer">
         <Users
