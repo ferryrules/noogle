@@ -185,14 +185,20 @@ export default class NotesContainer extends Component {
                   className="shareInput"
                   onChange={this.editFolderName}
                   value={this.state.editFolderName} />
-                <button onClick={this.saveFolderChange}>Save</button>
+                <button
+                  className="shareButton"
+                  onClick={this.saveFolderChange}>Save
+                </button>
               </div>)
             : (<label
                 className="notesFolderName">{folder.name}
-                <button onClick={this.editingFolder}>Edit</button>
+                <button
+                  className="shareButton"
+                  onClick={this.editingFolder}>Edit
+                </button>
               </label>) }
 
-          { !!folder
+          { (!!folder && !editingFolder)
             ? (<input
                 className="shareInput"
                 onChange={this.shareWithUser}
@@ -200,7 +206,7 @@ export default class NotesContainer extends Component {
                 value={shareWithUser} />)
             : null }
 
-          { !!folder
+          { (!!folder && !editingFolder)
             ? <button className="shareButton" onClick={this.shareFolder}><span>Share</span></button>
             : null }
 

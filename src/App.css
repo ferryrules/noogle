@@ -80,7 +80,6 @@ button {
   align-items: flex-end;
 }
 .navUsername {
-  padding-left: 15px;
   padding-top: 7.5px;
   font-weight: bold;
 }
@@ -331,4 +330,11 @@ li div.folders-li button{
 
 .deleteNoteBtn:hover {
   color: red;
+}
+.editNoteBtn {
+  margin-left: -5px;
+}
+.editFolderBtn {
+  margin-bottom: 5px;
+  vertical-align: middle;
 }

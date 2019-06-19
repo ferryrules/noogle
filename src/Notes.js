@@ -9,7 +9,7 @@ export default class Notes extends Component {
           id={this.props.id}
           onClick={this.props.deleteMe}>x</button>
         <button
-          className="shareButton"
+          className="editNoteBtn"
           onClick={(e)=>this.props.edit(this.props.note)}>Edit</button>
         <cite>{this.props.user.username}: </cite>
         {this.props.note.note}
