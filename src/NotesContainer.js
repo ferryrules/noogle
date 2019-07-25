@@ -18,12 +18,8 @@ export default class NotesContainer extends Component {
   }
 
   componentDidMount() {
-    fetch(NOTE_API)
-    .then(r => r.json())
-    .then(notes => {
-      this.setState({
-        notes
-      })
+    this.setState({
+      notes: this.props.folder.notes
     })
   }
 
@@ -59,7 +55,7 @@ export default class NotesContainer extends Component {
     .then(note=>{
       console.log("new note", note);
       this.setState({
-        notes: [...this.state.notes, note],
+        notes: [...this.props.folder.notes, note],
         newNote: "",
         newURL: ""
       })
@@ -154,26 +150,28 @@ export default class NotesContainer extends Component {
     })
   }
 
-  render() {
-    const { folder, users } = this.props
-    const { newNote, newURL, shareWithUser, editingFolder, editingNote } = this.state
-
-    const folderNotes = this.state.notes.filter(n=>{
-      return n.folder_id === this.props.folder.id
-    })
-
-    const eachNote = folderNotes.map(n=>{
-      let iWroteThis = users.find(u=>{
-        return parseInt(u.id) === n.user_id
-      })
-      return <Notes
-            user={iWroteThis}
+  allNotes = () => {
+    const {notes} = this.props.folder
+    if (notes) {
+      return notes.map(n=>{
+        return (
+          <Notes
             note={n}
             id={n.id}
             key={n.id}
             deleteMe={this.deleteMe}
             edit={this.editingNote} />
-    })
+        )
+      })
+    }
+  }
+
+  render() {
+    console.log("props", this.props.folder.notes);
+    console.log("state", this.state);
+    const { folder } = this.props
+    const { newNote, newURL, shareWithUser, editingFolder, editingNote } = this.state
+
 
     return (
       <div className="notesContainer">
@@ -227,7 +225,7 @@ export default class NotesContainer extends Component {
                     value={this.state.editNoteURL} />
                   <button onClick={this.saveNoteChange}>Save</button>
                 </div>)
-              : eachNote }
+              : this.allNotes() }
           </ul>
         </div>
         <div className="notesFooter staticBottom">
