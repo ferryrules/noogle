@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Notes from './Notes'
+import Notes from '../components/Notes'
 const NOTE_API = "http://localhost:3000/notes"
 
 export default class NotesContainer extends Component {

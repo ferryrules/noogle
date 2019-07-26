@@ -1,9 +1,9 @@
 import React from 'react';
-import './App.css';
-import NotesContainer from './NotesContainer.js'
-import NavContainer from './NavContainer.js'
-import Header from './Header.js'
-import LoginPage from './LoginPage.js'
+import './styles/App.css';
+import NotesContainer from './containers/NotesContainer.js'
+import NavContainer from './containers/NavContainer.js'
+import Header from './containers/Header.js'
+import LoginPage from './containers/LoginPage.js'
 const USER_API = "http://localhost:3000/users"
 const FOLDER_API = "http://localhost:3000/folders"
 
@@ -178,7 +178,7 @@ export default class App extends React.Component {
     return (
       <div className="gridContainer">
         <div id="left-grid-container">
-          <Header />
+          <Header user={thisUser} />
           <NavContainer
             newFolderName={this.newFolderName}
             addFolder={this.addFolder}

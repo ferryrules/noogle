@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
-import Folders from './Folders'
-import Users from './Users'
+import Folders from '../components/Folders'
 
 export default class NavContainer extends Component {
 
@@ -8,8 +7,6 @@ export default class NavContainer extends Component {
     const { newFolderName, addFolder, changeFolder, deleteFolder, folders, addUser, user } = this.props
     return (
       <div className="navContainer">
-        <Users
-          user={user}/>
         <Folders
           addFolder={addFolder}
           newFolderName={newFolderName}
