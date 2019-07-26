@@ -1,11 +1,9 @@
 import React, { Component } from 'react';
 import Notes from '../components/Notes'
-const NOTE_API = "http://localhost:3000/notes"
 
 export default class NotesContainer extends Component {
 
   state = {
-    notes: [],
     note: "",
     url: "",
     shareWithUser: "",
@@ -17,15 +15,13 @@ export default class NotesContainer extends Component {
     editingNote: false,
   }
 
-  componentDidMount() {
-    this.setState({
-      notes: this.props.folder.notes
-    })
-  }
-
   saveNewNote = (e) => {
     const { note, url } = this.state
     this.props.addNote(e, note, url)
+    this.setState({
+      note: "",
+      url: ""
+    })
   }
 
   newNote = (e) => {
@@ -33,16 +29,6 @@ export default class NotesContainer extends Component {
     const {name,value} = e.target
     this.setState({
       [name]: value
-    })
-  }
-
-  deleteMe = (e) => {
-    let findNote = this.props.folder.notes.filter(n=>{
-      return n.id !== parseInt(e.target.id)
-    })
-    fetch(`http://localhost:3000/notes/${e.target.id}`, {method: "DELETE"})
-    this.setState({
-      notes: findNote
     })
   }
 
@@ -102,30 +88,18 @@ export default class NotesContainer extends Component {
   }
 
   saveNoteChange = (e) => {
-    let switcher = this.state.editingNote
+    const { editingNote, currentNote, editNoteText, editNoteURL } = this.state
+    let switcher = editingNote
     switcher = !switcher
     this.setState({
       editingNote: switcher
     })
-    fetch(NOTE_API + `/${this.state.currentNote.id}`, {
-      method: "PATCH",
-      headers: {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json'
-      },
-      body: JSON.stringify({
-        note: this.state.editNoteText,
-        url: this.state.editNoteURL
-      })
-    })
-    .then(r=>r.json())
-    .then(note=>{
-      this.componentDidMount()
-    })
+    this.props.editNote(currentNote.id, editNoteText, editNoteURL)
   }
 
   allNotes = () => {
     const { notes } = this.props
+    console.log(notes);
     if (notes) {
       return notes.map(n=>{
         return (
@@ -133,7 +107,7 @@ export default class NotesContainer extends Component {
             note={n}
             id={n.id}
             key={n.id}
-            deleteMe={this.deleteMe}
+            deleteNote={this.props.deleteNote}
             edit={this.editingNote} />
         )
       })
@@ -145,7 +119,6 @@ export default class NotesContainer extends Component {
     // console.log("state", this.state);
     const { folder } = this.props
     const { note, url, shareWithUser, editingFolder, editingNote } = this.state
-
 
     return (
       <div className="notesContainer">
@@ -213,30 +186,3 @@ export default class NotesContainer extends Component {
     )
   }
 }
-
-// saveNewNote = (e) => {
-//   e.preventDefault()
-//   fetch(NOTE_API, {
-//     method: "POST",
-//     headers: {
-//       'Content-Type': 'application/json',
-//       'Accept': 'application/json'
-//     },
-//     body: JSON.stringify({
-//       note: this.state.note,
-//       folder_id: this.props.folder.id,
-//       user_id: this.props.user,
-//       url: this.state.url,
-//       key: this.state.note
-//     })
-//   })
-//   .then(r=>r.json())
-//   .then(note=>{
-//     this.setState({
-//       notes: [...this.props.folder.notes, note],
-//       newNote: "",
-//       newURL: ""
-//     })
-//   })
-//   .then(this.componentDidMount())
-// }

@@ -182,6 +182,30 @@ export default class App extends React.Component {
     })
   }
 
+  deleteNote = (e) => {
+    let findNote = this.state.notes.filter(n=>{
+      return n.id !== parseInt(e.target.id)
+    })
+    fetch(`http://localhost:3000/notes/${e.target.id}`, {method: "DELETE"})
+    this.setState({
+      notes: findNote
+    })
+  }
+
+  editNote = (id, note, url) => {
+    fetch(NOTE_API + `/${id}`, {
+      method: "PATCH",
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+      },
+      body: JSON.stringify({
+        note: note,
+        url: url
+      })
+    })
+  }
+
   logout = (e) => {
     localStorage.clear()
     this.setState({
@@ -219,9 +243,12 @@ export default class App extends React.Component {
             users={users}
             user={thisUser}
             addNote={this.addNote}
+            deleteNote={this.deleteNote}
+            editNote={this.editNote}
             shareFolder={this.shareFolder}
             editFolder={this.editFolder}/>
       </div>
     );
   }
+
 }
