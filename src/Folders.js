@@ -7,11 +7,9 @@ export default class Folders extends Component {
   }
 
   render() {
-    const userFolders = this.props.folders.filter(uf=>{
-      return uf.user_id === this.props.currentUser
-    })
-
-    const eachFolder = userFolders.map(f => {
+    const { folders } = this.props.user
+    console.log(this.props.user.folders);
+    const eachFolder = folders ? folders.map(f => {
       return <li  className="folders-li" key={f.id}>
         <button
           className="openFolderBtn"
@@ -26,7 +24,7 @@ export default class Folders extends Component {
           onClick={this.props.deleteFolder}><span aria-label="delete" role="img">✘</span>
         </button>
       </li>
-    })
+    }) : null
 
     return (
       <div>

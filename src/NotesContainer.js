@@ -6,8 +6,8 @@ export default class NotesContainer extends Component {
 
   state = {
     notes: [],
-    newNote: "",
-    newURL: "",
+    note: "",
+    url: "",
     shareWithUser: "",
     editFolderName: "",
     editingFolder: false,
@@ -24,14 +24,10 @@ export default class NotesContainer extends Component {
   }
 
   newNote = (e) => {
+    console.log(e.target);
+    const {name,value} = e.target
     this.setState({
-      newNote: e.target.value
-    })
-  }
-
-  newURL = (e) => {
-    this.setState({
-      newURL: e.target.value
+      [name]: value
     })
   }
 
@@ -44,26 +40,26 @@ export default class NotesContainer extends Component {
         'Accept': 'application/json'
       },
       body: JSON.stringify({
-        note: this.state.newNote,
+        note: this.state.note,
         folder_id: this.props.folder.id,
         user_id: this.props.user,
-        url: this.state.newURL,
-        key: this.state.newNote
+        url: this.state.url,
+        key: this.state.note
       })
     })
     .then(r=>r.json())
     .then(note=>{
-      console.log("new note", note);
       this.setState({
         notes: [...this.props.folder.notes, note],
         newNote: "",
         newURL: ""
       })
     })
+    .then(this.componentDidMount())
   }
 
   deleteMe = (e) => {
-    let findNote = this.state.notes.filter(n=>{
+    let findNote = this.props.folder.notes.filter(n=>{
       return n.id !== parseInt(e.target.id)
     })
     fetch(`http://localhost:3000/notes/${e.target.id}`, {method: "DELETE"})
@@ -167,10 +163,10 @@ export default class NotesContainer extends Component {
   }
 
   render() {
-    console.log("props", this.props.folder.notes);
-    console.log("state", this.state);
+    // console.log("props", this.props.folder.notes);
+    // console.log("state", this.state);
     const { folder } = this.props
-    const { newNote, newURL, shareWithUser, editingFolder, editingNote } = this.state
+    const { note, url, shareWithUser, editingFolder, editingNote } = this.state
 
 
     return (
@@ -230,8 +226,8 @@ export default class NotesContainer extends Component {
         </div>
         <div className="notesFooter staticBottom">
           <form>
-            { !!folder ? <input className="noteText" type="text" name="new_note_text" placeholder={`Note`} value={newNote} onChange={this.newNote}/> : null }
-            { !!folder ? <input className="noteURL"  type="text" name="new_note_url" placeholder={`URL`} value={newURL} onChange={this.newURL}/> : null }
+            { !!folder ? <input className="noteText" type="text" name="note" placeholder={`Note`} value={note} onChange={this.newNote}/> : null }
+            { !!folder ? <input className="noteURL"  type="text" name="url" placeholder={`URL`} value={url} onChange={this.newNote}/> : null }
             { !!folder ? <input type="submit" onClick={this.saveNewNote}/> : null }
           </form>
         </div>

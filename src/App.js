@@ -13,6 +13,7 @@ export default class App extends React.Component {
     users: [],
     folders: [],
     thisFolder: [],
+    thisUser: [],
     currentUser: [],
     currentUsername: "",
     newFolder: ""
@@ -27,6 +28,7 @@ export default class App extends React.Component {
       if (!!thisUser) {
         this.setState({
           users,
+          thisUser,
           folders: thisUser.folders || [],
           thisFolder: thisUser.folders[0] || '',
           currentUser: thisUser.id || [],
@@ -109,6 +111,7 @@ export default class App extends React.Component {
 
   shareFolder = (e, username) => {
     e.preventDefault()
+    window.confirm(`Share this folder with ${username}?`)
     let grabUser = this.state.users.find(u=>{
       return u.username === username
     })
@@ -165,7 +168,8 @@ export default class App extends React.Component {
   }
 
   render() {
-    const { folders, thisFolder, users, currentUser, currentUsername } = this.state
+    console.log(this.state);
+    const { folders, thisFolder, users, thisUser } = this.state
 
     if (!localStorage.getItem('username')) {
       return <LoginPage users={this.state.users} newUser={this.newUser} okToFetch={this.stopFuckingFetching} redirect={this.redirect} />
@@ -181,20 +185,18 @@ export default class App extends React.Component {
             changeFolder={this.changeFolder}
             deleteFolder={this.deleteFolder}
             folders={folders}
-            user={currentUser}
-            username={currentUsername}
+            user={thisUser}
             logout={this.logout}/>
           <div className="logoutBtnWrapper">
             <button className="logoutBtn" onClick={this.logout}>Logout</button>
           </div>
         </div>
           <NotesContainer
-          folder={thisFolder}
-          folders={folders}
-          users={users}
-          user={currentUser}
-          shareFolder={this.shareFolder}
-          editFolder={this.editFolder}/>
+            folder={thisFolder}
+            users={users}
+            user={thisUser}
+            shareFolder={this.shareFolder}
+            editFolder={this.editFolder}/>
       </div>
     );
   }

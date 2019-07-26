@@ -5,11 +5,11 @@ import Users from './Users'
 export default class NavContainer extends Component {
 
   render() {
-    const { newFolderName, addFolder, changeFolder, deleteFolder, folders, addUser, user, username } = this.props
+    const { newFolderName, addFolder, changeFolder, deleteFolder, folders, addUser, user } = this.props
     return (
       <div className="navContainer">
         <Users
-          user={username}/>
+          user={user}/>
         <Folders
           addFolder={addFolder}
           newFolderName={newFolderName}
