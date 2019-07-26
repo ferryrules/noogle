@@ -6,17 +6,18 @@ import Header from './containers/Header.js'
 import LoginPage from './containers/LoginPage.js'
 const USER_API = "http://localhost:3000/users"
 const FOLDER_API = "http://localhost:3000/folders"
+const NOTE_API = "http://localhost:3000/notes"
 
 export default class App extends React.Component {
 
   state = {
     users: [],
     folders: [],
-    thisFolder: [],
+    notes: [],
     thisUser: [],
+    thisFolder: [],
     currentUser: [],
-    currentUsername: "",
-    newFolder: ""
+    currentUsername: ""
   }
 
   componentDidMount() {
@@ -31,6 +32,7 @@ export default class App extends React.Component {
           thisUser,
           folders: thisUser.folders || [],
           thisFolder: thisUser.folders[0] || '',
+          notes: thisUser.folders[0].notes || '',
           currentUser: thisUser.id || [],
           currentUsername: thisUser.username || ''
         })
@@ -55,13 +57,7 @@ export default class App extends React.Component {
     })
   }
 
-  newFolderName = (e) => {
-    this.setState({
-      newFolder: e.target.value
-    })
-  }
-
-  addFolder = (e) => {
+  addFolder = (e, folderName) => {
     e.preventDefault()
     fetch(FOLDER_API,{
       method: "POST",
@@ -70,7 +66,7 @@ export default class App extends React.Component {
         'Accept': 'application/json'
       },
       body: JSON.stringify({
-        name: this.state.newFolder,
+        name: folderName,
         user_id: this.state.currentUser
       })
     })
@@ -93,7 +89,8 @@ export default class App extends React.Component {
       return f.name === folderName
     })
     this.setState({
-      thisFolder: selectedFolder
+      thisFolder: selectedFolder,
+      notes: selectedFolder.notes
     })
   }
 
@@ -160,6 +157,31 @@ export default class App extends React.Component {
     })
   }
 
+  addNote = (e, note, url) => {
+    e.preventDefault()
+    fetch(NOTE_API, {
+      method: "POST",
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+      },
+      body: JSON.stringify({
+        note: note,
+        folder_id: this.state.thisFolder.id,
+        user_id: this.state.currentUser,
+        url: url,
+        key: note
+      })
+    })
+    .then(r=>r.json())
+    .then(note=>{
+      console.log(note);
+      this.setState({
+        notes: [...this.state.notes, note]
+      })
+    })
+  }
+
   logout = (e) => {
     localStorage.clear()
     this.setState({
@@ -168,8 +190,8 @@ export default class App extends React.Component {
   }
 
   render() {
-    console.log(this.state);
-    const { folders, thisFolder, users, thisUser } = this.state
+    // console.log("app state",this.state);
+    const { folders, thisFolder, users, thisUser, notes } = this.state
 
     if (!localStorage.getItem('username')) {
       return <LoginPage users={this.state.users} newUser={this.newUser} okToFetch={this.stopFuckingFetching} redirect={this.redirect} />
@@ -193,8 +215,10 @@ export default class App extends React.Component {
         </div>
           <NotesContainer
             folder={thisFolder}
+            notes={notes}
             users={users}
             user={thisUser}
+            addNote={this.addNote}
             shareFolder={this.shareFolder}
             editFolder={this.editFolder}/>
       </div>

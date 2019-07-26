@@ -2,13 +2,28 @@ import React, { Component } from 'react';
 
 export default class Folders extends Component {
 
+  state = {
+    newFolderName: ""
+  }
+
   handleFolderClick = (e) => {
     this.props.changeFolder(e.target.name)
   }
 
+  addFolder = (e, folderName) => {
+    this.props.addFolder(e, folderName)
+    this.setState({ newFolderName: "" })
+  }
+
+  newFolderName = (e) => {
+    this.setState({
+      newFolderName: e.target.value
+    })
+  }
+
   render() {
-    const { folders } = this.props.user
-    console.log(this.props.user.folders);
+    const { folders } = this.props
+    // console.log(this.props.folders);
     const eachFolder = folders ? folders.map(f => {
       return <li  className="folders-li" key={f.id}>
         <button
@@ -30,10 +45,10 @@ export default class Folders extends Component {
       <div>
         <div className="foldersContainer">
           <div className="addFolderWrapper">
-            <input type="text" placeholder="New folder name" onChange={this.props.newFolderName}/>
+            <input type="text" placeholder="New folder name" value={this.state.newFolderName} onChange={this.newFolderName}/>
             <button
               className="addFolderBtn"
-              onClick={this.props.addFolder}>+</button>
+              onClick={(e)=>this.addFolder(e,this.state.newFolderName)}>+</button>
           </div>
         </div>
         <div className="foldersHeadingWrapper">
@@ -44,7 +59,7 @@ export default class Folders extends Component {
           {eachFolder}
           </ul>
         </div>
-        </div>
+      </div>
     )
   }
 }

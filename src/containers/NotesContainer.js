@@ -23,39 +23,17 @@ export default class NotesContainer extends Component {
     })
   }
 
+  saveNewNote = (e) => {
+    const { note, url } = this.state
+    this.props.addNote(e, note, url)
+  }
+
   newNote = (e) => {
-    console.log(e.target);
+    // console.log(e.target);
     const {name,value} = e.target
     this.setState({
       [name]: value
     })
-  }
-
-  saveNewNote = (e) => {
-    e.preventDefault()
-    fetch(NOTE_API, {
-      method: "POST",
-      headers: {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json'
-      },
-      body: JSON.stringify({
-        note: this.state.note,
-        folder_id: this.props.folder.id,
-        user_id: this.props.user,
-        url: this.state.url,
-        key: this.state.note
-      })
-    })
-    .then(r=>r.json())
-    .then(note=>{
-      this.setState({
-        notes: [...this.props.folder.notes, note],
-        newNote: "",
-        newURL: ""
-      })
-    })
-    .then(this.componentDidMount())
   }
 
   deleteMe = (e) => {
@@ -147,7 +125,7 @@ export default class NotesContainer extends Component {
   }
 
   allNotes = () => {
-    const {notes} = this.props.folder
+    const { notes } = this.props
     if (notes) {
       return notes.map(n=>{
         return (
@@ -163,7 +141,7 @@ export default class NotesContainer extends Component {
   }
 
   render() {
-    // console.log("props", this.props.folder.notes);
+    // console.log("props", this.props);
     // console.log("state", this.state);
     const { folder } = this.props
     const { note, url, shareWithUser, editingFolder, editingNote } = this.state
@@ -235,3 +213,30 @@ export default class NotesContainer extends Component {
     )
   }
 }
+
+// saveNewNote = (e) => {
+//   e.preventDefault()
+//   fetch(NOTE_API, {
+//     method: "POST",
+//     headers: {
+//       'Content-Type': 'application/json',
+//       'Accept': 'application/json'
+//     },
+//     body: JSON.stringify({
+//       note: this.state.note,
+//       folder_id: this.props.folder.id,
+//       user_id: this.props.user,
+//       url: this.state.url,
+//       key: this.state.note
+//     })
+//   })
+//   .then(r=>r.json())
+//   .then(note=>{
+//     this.setState({
+//       notes: [...this.props.folder.notes, note],
+//       newNote: "",
+//       newURL: ""
+//     })
+//   })
+//   .then(this.componentDidMount())
+// }

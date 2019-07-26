@@ -4,12 +4,13 @@ import Folders from '../components/Folders'
 export default class NavContainer extends Component {
 
   render() {
-    const { newFolderName, addFolder, changeFolder, deleteFolder, folders, addUser, user } = this.props
+    // console.log("navContainer", this.props);
+    const { addFolder, changeFolder, deleteFolder, folders, addUser, user } = this.props
     return (
       <div className="navContainer">
+        <br />
         <Folders
           addFolder={addFolder}
-          newFolderName={newFolderName}
           changeFolder={changeFolder}
           deleteFolder={deleteFolder}
           folders={folders}

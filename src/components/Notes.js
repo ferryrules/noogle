@@ -2,20 +2,21 @@ import React, { Component } from 'react';
 
 export default class Notes extends Component {
   render() {
-    // console.log(this.props);
+    // console.log("notes props", this.props.note);
+    const { id, deleteMe, note } = this.props
     return (
       <div>
         <button
           className="deleteNoteBtn"
-          id={this.props.id}
-          onClick={this.props.deleteMe}>x</button>
+          id={id}
+          onClick={deleteMe}>x</button>
         <button
           className="editNoteBtn"
-          onClick={(e)=>this.props.edit(this.props.note)}>Edit</button>
-        <cite>{this.props.note.username}: </cite>
-        {this.props.note.note}
+          onClick={(e)=>this.props.edit(note)}>Edit</button>
+        <cite>{note.username ? note.username : note.user.username}: </cite>
+        {note.note}
         <ul>
-          <a href={this.props.note.url}>{this.props.note.url}</a>
+          <a href={note.url}>{note.url}</a>
         </ul>
       </div>
     )
