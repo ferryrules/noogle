@@ -6,11 +6,9 @@ export default class Notes extends Component {
     return (
       <div>
         <button
-          className="deleteNoteBtn"
           id={id}
           onClick={deleteNote}>x</button>
         <button
-          className="editNoteBtn"
           onClick={(e)=>this.props.edit(note)}>Edit</button>
         <cite>{note.username}: </cite>
         {note.note}

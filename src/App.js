@@ -1,9 +1,12 @@
 import React from 'react';
-import './styles/App.css';
+// import './styles/App.css';
 import NotesContainer from './containers/NotesContainer.js'
 import NavContainer from './containers/NavContainer.js'
 import Header from './containers/Header.js'
 import LoginPage from './containers/LoginPage.js'
+// import 'semantic-ui-css/semantic.min.css'
+import { Grid, Segment } from 'semantic-ui-react'
+
 const USER_API = "http://localhost:3000/users"
 const FOLDER_API = "http://localhost:3000/folders"
 const NOTE_API = "http://localhost:3000/notes"
@@ -214,7 +217,7 @@ export default class App extends React.Component {
   }
 
   render() {
-    // console.log("app state",this.state);
+    console.log("app state",this.state);
     const { folders, thisFolder, users, thisUser, notes } = this.state
 
     if (!localStorage.getItem('username')) {
@@ -222,33 +225,48 @@ export default class App extends React.Component {
     }
 
     return (
-      <div className="gridContainer">
-        <div id="left-grid-container">
-          <Header user={thisUser} />
-          <NavContainer
-            newFolderName={this.newFolderName}
-            addFolder={this.addFolder}
-            changeFolder={this.changeFolder}
-            deleteFolder={this.deleteFolder}
-            folders={folders}
-            user={thisUser}
-            logout={this.logout}/>
-          <div className="logoutBtnWrapper">
-            <button className="logoutBtn" onClick={this.logout}>Logout</button>
-          </div>
-        </div>
-          <NotesContainer
-            folder={thisFolder}
-            notes={notes}
-            users={users}
-            user={thisUser}
-            addNote={this.addNote}
-            deleteNote={this.deleteNote}
-            editNote={this.editNote}
-            shareFolder={this.shareFolder}
-            editFolder={this.editFolder}/>
-      </div>
+      <div class="ui divided three column grid">
+  <div class="stretched row">
+    <div class="column"><div class="ui segment">1</div></div>
+    <div class="column">
+      <div class="ui segment">1</div>
+      <div class="ui segment">2</div>
+    </div>
+    <div class="column">
+      <div class="ui segment">1</div>
+      <div class="ui segment">2</div>
+      <div class="ui segment">3</div>
+    </div>
+  </div>
+</div>
+
     );
   }
 
 }
+
+// <Header user={thisUser} />
+// <NavContainer
+//   thisFolder={thisFolder}
+//   newFolderName={this.newFolderName}
+//   addFolder={this.addFolder}
+//   changeFolder={this.changeFolder}
+//   deleteFolder={this.deleteFolder}
+//   folders={folders}
+//   user={thisUser}
+//   logout={this.logout}/>
+// <div className="logoutBtnWrapper">
+//   <button className="logoutBtn" onClick={this.logout}>Logout</button>
+// </div>
+//
+//
+// <NotesContainer
+//   folder={thisFolder}
+//   notes={notes}
+//   users={users}
+//   user={thisUser}
+//   addNote={this.addNote}
+//   deleteNote={this.deleteNote}
+//   editNote={this.editNote}
+//   shareFolder={this.shareFolder}
+//   editFolder={this.editFolder}/>

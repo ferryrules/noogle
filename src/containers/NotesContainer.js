@@ -123,7 +123,6 @@ export default class NotesContainer extends Component {
     return (
       <div className="notesContainer">
         <div className="notesHeader">
-
           { !!editingFolder
             ? (<div>
                 <input

@@ -1,4 +1,5 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
+import { Menu, List } from 'semantic-ui-react'
 
 export default class Folders extends Component {
 
@@ -7,7 +8,8 @@ export default class Folders extends Component {
   }
 
   handleFolderClick = (e) => {
-    this.props.changeFolder(e.target.name)
+    // debugger
+    this.props.changeFolder(e.target.innerText)
   }
 
   addFolder = (e, folderName) => {
@@ -25,40 +27,27 @@ export default class Folders extends Component {
     const { folders } = this.props
     // console.log(this.props.folders);
     const eachFolder = folders ? folders.map(f => {
-      return <li  className="folders-li" key={f.id}>
-        <button
-          className="openFolderBtn"
-          name={f.name}
-          onClick={this.handleFolderClick}
-          id={f.id}>
-          <span aria-label="folder" role="img">📁</span> {f.name}
-        </button>
-        <button
-          className="delFolderBtn"
-          id={f.id}
-          onClick={this.props.deleteFolder}><span aria-label="delete" role="img">✘</span>
-        </button>
-      </li>
+      return (
+        <Fragment>
+          <List.Item
+            name={f.name}
+            active={this.props.thisFolder === `${f.name}`}
+            key={f.id + '-' + f.name}
+            onClick={this.handleFolderClick}
+            id={f.id}>{f.name}</List.Item>
+          <br />
+        </Fragment>)
     }) : null
 
     return (
       <div>
-        <div className="foldersContainer">
-          <div className="addFolderWrapper">
-            <input type="text" placeholder="New folder name" value={this.state.newFolderName} onChange={this.newFolderName}/>
-            <button
-              className="addFolderBtn"
-              onClick={(e)=>this.addFolder(e,this.state.newFolderName)}>+</button>
-          </div>
-        </div>
-        <div className="foldersHeadingWrapper">
-          <h2 className="foldersHeading">Folders</h2>
-        </div>
-        <div className="nav_folders_list">
-          <ul className="foldersListStyle">
-          {eachFolder}
-          </ul>
-        </div>
+        <input type="text" placeholder="New Folder Name" value={this.state.newFolderName} onChange={this.newFolderName}/>
+        <button
+          onClick={(e)=>this.addFolder(e,this.state.newFolderName)}>+</button>
+        <List link>
+          <Menu.Header as="h1">Folders</Menu.Header>
+         {eachFolder}
+       </List>
       </div>
     )
   }
